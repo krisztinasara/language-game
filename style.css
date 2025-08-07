@@ -1,0 +1,49 @@
+
+#announce, #control {
+    font-family: Nunito, sans-serif;
+    font-size: 56px;
+    text-align: center;
+}
+
+#dice_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+}
+
+.dice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.75);
+    transform-origin: center;
+}
+
+circle {
+    opacity: 0; /* Hide all dots initially */
+    transition: opacity 0.1s ease-in-out; /* Smooth transition to prevent flicker */
+}
+
+#control > p > a:link {
+    color: black;
+    text-decoration: none;
+}
+
+#control > p > a:hover {
+    color: black;
+    background-color: gold;
+    text-decoration: none;
+}
+
+#control > p > a:active {
+    color: black;
+    background-color: gold;
+    text-decoration: none;
+}
+
+#control > p > a:visited {
+    color: black;
+    text-decoration: none;
+}

@@ -3,22 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Language game</title>
-  <link rel="stylesheet" href="assets/styles/styles.css" />
-  <script src="assets/scripts/app.js"></script>
+  <title>Dice game</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <svg viewBox="0 0 1080 720"></svg>
-  <script src="assets/scripts/squares.js"></script>
-  <p id="square-name"></p>
-  <p id="calculator-input">
-    <label for="calculator-input">Enter a number:</label>
-    <input type="number" id="calculator-input" />
-    <button id="calculate-button">Calculate</button>
-  </p>
-  <p id="calculator-output">
-    <label for="calculator-output">Result:</label>
-    <span id="calculator-output"></span>
-  </p>
+  <div id="announce">
+    <p>Announcement text</p>
+  </div>
+  <div id="dice_container">
+    <div class="dice" id="dice1">
+      <svg width="300" height="300">
+        <rect x="0" y="0" width="300" height="300" rx="15" ry="15" fill="red" />
+        <circle id="d1_c1" cx="60" cy="60" r="20" fill="white" />
+        <circle id="d1_c2" cx="60" cy="150" r="20" fill="white" />
+        <circle id="d1_c3" cx="60" cy="240" r="20" fill="white" />
+        <circle id="d1_c4" cx="150" cy="150" r="20" fill="white" />
+        <circle id="d1_c5" cx="240" cy="60" r="20" fill="white" />
+        <circle id="d1_c6" cx="240" cy="150" r="20" fill="white" />
+        <circle id="d1_c7" cx="240" cy="240" r="20" fill="white" />
+      </svg>
+    </div>
+    <div class="dice" id="dice2">
+      <svg width="300" height="300">
+        <rect x="0" y="0" width="300" height="300" rx="15" ry="15" fill="red" />
+        <circle id="d2_c1" cx="60" cy="60" r="20" fill="white" />
+        <circle id="d2_c2" cx="60" cy="150" r="20" fill="white" />
+        <circle id="d2_c3" cx="60" cy="240" r="20" fill="white" />
+        <circle id="d2_c4" cx="150" cy="150" r="20" fill="white" />
+        <circle id="d2_c5" cx="240" cy="60" r="20" fill="white" />
+        <circle id="d2_c6" cx="240" cy="150" r="20" fill="white" />
+        <circle id="d2_c7" cx="240" cy="240" r="20" fill="white" />
+      </svg>
+    </div>
+  </div>
+  <div id="control">
+    <p><a href="index.html">Click to roll the dices!</a></p>
+  </div>
 </body>
 </html>
