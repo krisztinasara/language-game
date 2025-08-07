@@ -1,8 +1,9 @@
 
 #announce, #control {
-    font-family: Nunito, sans-serif;
+    font-family: Nunito, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 56px;
     text-align: center;
+    font-display: swap;
 }
 
 #dice_container {
@@ -23,7 +24,6 @@
 
 circle {
     opacity: 0; /* Hide all dots initially */
-    transition: opacity 0.1s ease-in-out; /* Smooth transition to prevent flicker */
 }
 
 #control > p > a:link {
