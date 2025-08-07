@@ -59,7 +59,7 @@ circle {
 }
 
 /* Responsive design for tablets */
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
     #announce, #control {
         font-size: 42px;
     }
