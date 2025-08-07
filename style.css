@@ -7,6 +7,9 @@ body {
     justify-content: center;
     align-items: center;
     font-family: Nunito, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 #announce, #control {
@@ -14,6 +17,10 @@ body {
     font-size: 56px;
     text-align: center;
     font-display: swap;
+    max-width: 100vw;
+    padding: 0 20px;
+    box-sizing: border-box;
+    word-wrap: break-word;
 }
 
 #dice_container {
@@ -22,6 +29,10 @@ body {
     justify-content: center;
     align-items: center;
     gap: 32px;
+    max-width: 100vw;
+    padding: 0 20px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
 }
 
 .dice {
@@ -30,6 +41,8 @@ body {
     align-items: center;
     transform: scale(0.75);
     transform-origin: center;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 circle {
@@ -56,4 +69,88 @@ circle {
 #control > p > a:visited {
     color: black;
     text-decoration: none;
+}
+
+/* Portrait orientation - dice stacked vertically */
+@media (orientation: portrait) {
+    #dice_container {
+        flex-direction: column;
+        gap: 24px;
+    }
+    
+    #announce, #control {
+        font-size: 42px;
+        padding: 0 16px;
+    }
+    
+    .dice {
+        transform: scale(0.6);
+    }
+}
+
+/* Landscape orientation - dice side by side */
+@media (orientation: landscape) {
+    #dice_container {
+        flex-direction: row;
+        gap: 32px;
+    }
+    
+    #announce, #control {
+        font-size: 48px;
+        padding: 0 20px;
+    }
+    
+    .dice {
+        transform: scale(0.7);
+    }
+}
+
+/* Small screens (tablets and smaller phones) */
+@media (max-width: 768px) {
+    #announce, #control {
+        font-size: 36px;
+        padding: 0 12px;
+    }
+    
+    #dice_container {
+        gap: 20px;
+        padding: 0 12px;
+    }
+    
+    .dice {
+        transform: scale(0.55);
+    }
+}
+
+/* Medium screens (modern phones) */
+@media (max-width: 1024px) {
+    #announce, #control {
+        font-size: 40px;
+        padding: 0 16px;
+    }
+    
+    #dice_container {
+        gap: 24px;
+        padding: 0 16px;
+    }
+    
+    .dice {
+        transform: scale(0.65);
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    #announce, #control {
+        font-size: 28px;
+        padding: 0 8px;
+    }
+    
+    #dice_container {
+        padding: 0 8px;
+    }
+    
+    .dice {
+        transform: scale(0.45);
+    }
 }
