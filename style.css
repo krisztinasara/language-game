@@ -57,3 +57,45 @@ circle {
     color: black;
     text-decoration: none;
 }
+
+/* Responsive design for tablets */
+@media (max-width: 768px) {
+    #announce, #control {
+        font-size: 42px;
+    }
+    
+    #dice_container {
+        gap: 24px;
+    }
+    
+    .dice {
+        transform: scale(0.6);
+    }
+}
+
+/* Responsive design for mobile phones */
+@media (max-width: 480px) {
+    #announce, #control {
+        font-size: 28px;
+    }
+    
+    #dice_container {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .dice {
+        transform: scale(0.5);
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 320px) {
+    #announce, #control {
+        font-size: 24px;
+    }
+    
+    .dice {
+        transform: scale(0.4);
+    }
+}
