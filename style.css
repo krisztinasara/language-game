@@ -59,7 +59,7 @@ circle {
 }
 
 /* Responsive design for tablets */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     #announce, #control {
         font-size: 42px;
     }
@@ -74,7 +74,7 @@ circle {
 }
 
 /* Responsive design for mobile phones */
-@media (max-width: 480px) {
+@media (max-width: 750px) {
     #announce, #control {
         font-size: 28px;
     }
@@ -90,7 +90,7 @@ circle {
 }
 
 /* Extra small screens */
-@media (max-width: 320px) {
+@media (max-width: 450px) {
     #announce, #control {
         font-size: 24px;
     }
