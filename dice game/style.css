@@ -49,24 +49,10 @@ circle {
     opacity: 0; /* Hide all dots initially */
 }
 
-#control > p > a:link {
-    color: black;
-    text-decoration: none;
+#control:hover {
+    cursor: pointer;
 }
 
-#control > p > a:hover {
-    color: black;
-    background-color: gold;
-    text-decoration: none;
-}
-
-#control > p > a:active {
-    color: black;
-    background-color: gold;
-    text-decoration: none;
-}
-
-#control > p > a:visited {
-    color: black;
-    text-decoration: none;
+.active_dom rect {
+    fill: white !important;
 }
