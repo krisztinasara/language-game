@@ -67,10 +67,8 @@ document.addEventListener("keydown", function(event){
 document.querySelectorAll(".dice").forEach(dice => {
   dice.addEventListener("click", function(event) {
     diceColor(event);
-    console.log("Adding active_dom class");
     dice.classList.add("active_dom");
     setTimeout(function() {
-      console.log("Removing active_dom class");
       dice.classList.remove("active_dom");
     }, 150);
   });
