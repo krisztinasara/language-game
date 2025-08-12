@@ -1,4 +1,49 @@
 #text {
     font-family: Pixelify Sans, monospace;
     font-size: 42px;
+    color: white;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(31, 9, 81);
+}
+
+#text {
+    flex: 1 1 33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+}
+
+#buttons {
+    flex: 3 1 67%;
+    display: grid;
+    grid-template-columns: 200px 200px;
+    grid-template-rows: 200px 200px;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    padding: 20px;
+}
+
+#buttons button {
+    width: 200px;
+    height: 200px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game_over {
+    background-color: red;
 }
