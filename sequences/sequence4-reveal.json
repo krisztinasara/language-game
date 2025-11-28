@@ -1,0 +1,15 @@
+{
+  "agentSize": 150,
+  "agents": [
+    {
+      "agent": "circle",
+      "animationType": "reveal",
+      "animation": {
+        "X": 4,
+        "Y": 3,
+        "duration": 1.5
+      }
+    }
+  ]
+}
+

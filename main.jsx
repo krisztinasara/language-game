@@ -1,5 +1,9 @@
 import { createRoot } from 'react-dom/client';
 import { motion } from 'motion/react';
+import { square, circle, go, jump, hide, reveal, push } from './components';
+import { sparkles } from './components/effects/sparkles';
+import configData from './config.json';
+import { gridToPixels } from './components/board/grid';
 
 /*
 The screen will have a grid-like layout
@@ -8,53 +12,310 @@ This will be a 6x8 layout.
 For the time being, we start with a viewport percentages and not a gameboard with absolute positions.
 */
 
-const circle = <circle cx="50" cy="50" r="40" stroke="green" strokeWidth="4" fill="yellow" />
-const square = <rect width="75" height="75" />
+// Agent registry - maps agent names to components
+const agentRegistry = {
+  square: square,
+  circle: circle
+};
 
-function Item1({ agent }) {
-    return(
-        <motion.svg
-            width="100" 
-            height="100"
-            style={{ position: 'absolute' }}
-            initial={{ left: '25%', top: '35%' }}
-            animate={{ left: '50%', top: '50%', transition: {duration: 2} }}
-        >
-            {agent}
-        </motion.svg>
-    )
+// Helper function to convert JSON config to runtime config with pixel values
+function processConfig(jsonConfig) {
+  const defaultSize = jsonConfig.agentSize ?? 100; // Default to 100 if not specified
+
+  return jsonConfig.agents.map(agentConfig => {
+    // Get size for this agent (per-agent override or use default)
+    const agentSize = agentConfig.size ?? defaultSize;
+    const halfSize = agentSize / 2;
+
+    if (agentConfig.animationType === 'go' && agentConfig.animation) {
+      const anim = agentConfig.animation;
+      const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
+      const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
+
+      return {
+        ...agentConfig,
+        size: agentSize,
+        animation: {
+          startX: start.x - halfSize,
+          startY: start.y - halfSize,
+          endX: end.x - halfSize,
+          endY: end.y - halfSize,
+          duration: anim.duration,
+          amplitude: anim.amplitude,
+          frequency: anim.frequency
+        }
+      };
+    }
+
+    if (agentConfig.animationType === 'jump' && agentConfig.animation) {
+      const anim = agentConfig.animation;
+      const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
+      const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
+
+      return {
+        ...agentConfig,
+        size: agentSize,
+        animation: {
+          startX: start.x - halfSize,
+          startY: start.y - halfSize,
+          endX: end.x - halfSize,
+          endY: end.y - halfSize,
+          duration: anim.duration ?? 2,
+          jumpHeight: anim.jumpHeight ?? 100,
+          agentSize: agentSize
+        }
+      };
+    }
+
+    if (agentConfig.animationType === 'hide' && agentConfig.animation) {
+      const anim = agentConfig.animation;
+      const position = gridToPixels(anim.X ?? 0, anim.Y ?? 0);
+
+      return {
+        ...agentConfig,
+        size: agentSize,
+        animation: {
+          positionX: position.x - halfSize,
+          positionY: position.y - halfSize,
+          duration: anim.duration ?? 1,
+          agentSize: agentSize
+        }
+      };
+    }
+
+    if (agentConfig.animationType === 'reveal' && agentConfig.animation) {
+      const anim = agentConfig.animation;
+      const position = gridToPixels(anim.X ?? 0, anim.Y ?? 0);
+
+      return {
+        ...agentConfig,
+        size: agentSize,
+        animation: {
+          positionX: position.x - halfSize,
+          positionY: position.y - halfSize,
+          duration: anim.duration ?? 1,
+          agentSize: agentSize
+        }
+      };
+    }
+
+    if (agentConfig.animationType === 'push' && agentConfig.animation) {
+      const anim = agentConfig.animation;
+      const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
+      const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
+
+      return {
+        ...agentConfig,
+        size: agentSize,
+        animation: {
+          startX: start.x - halfSize,
+          startY: start.y - halfSize,
+          endX: end.x - halfSize,
+          endY: end.y - halfSize,
+          duration: anim.duration ?? 2,
+          role: anim.role ?? 'pusher' // 'pusher' or 'pushed'
+        }
+      };
+    }
+
+    if (agentConfig.type === 'static' && agentConfig.position) {
+      const { X = 0, Y = 0 } = agentConfig.position;
+      const position = gridToPixels(X, Y);
+
+      return {
+        ...agentConfig,
+        size: agentSize,
+        staticProps: {
+          style: {
+            position: 'absolute',
+            x: position.x - halfSize,
+            y: position.y - halfSize
+          }
+        }
+      };
+    }
+
+    return agentConfig;
+  });
 }
 
-function Item2({ agent }) {
-    return(
-        <motion.svg
-            width="100" 
-            height="100"
-            style={{ position: 'absolute' }}
-            initial={{ left: '50%', top: '65%' }}
-            animate={{ left: '50%', top: '65%' }}
-        >
-            {agent}
-        </motion.svg>
-    )
+function GoAgent({ agent, animationConfig, size = 100 }) {
+  const animationProps = go(animationConfig);
+  return(
+    <motion.svg
+      width={size} 
+      height={size}
+      {...animationProps}
+    >
+      {agent}
+    </motion.svg>
+  );
 }
 
-function MyApp() {
-    return(
-        <div style={{ 
-            width: '100vw', 
-            height: '100vh', 
-            position: 'relative',
-            overflow: 'hidden',  // Prevents scrolling/viewport expansion
-            margin: 0,
-            padding: 0
-        }}>
-            <Item1 agent={circle} />
-            <Item2 agent={circle}/>
-        </div>
-    )
+function JumpAgent({ agent, animationConfig, size = 100 }) {
+  const animationProps = jump(animationConfig);
+  return(
+    <motion.svg
+      width={size} 
+      height={size}
+      {...animationProps}
+    >
+      {agent}
+    </motion.svg>
+  );
 }
 
+function HideAgent({ agent, animationConfig, size = 100 }) {
+  const animationResult = hide(animationConfig);
+  const { style, sparkles: sparklesConfig } = animationResult;
+  
+  return(
+    <>
+      <motion.svg
+        width={size} 
+        height={size}
+        style={style}
+      >
+        {agent}
+      </motion.svg>
+      {sparklesConfig && sparkles({
+        centerX: sparklesConfig.centerX,
+        centerY: sparklesConfig.centerY,
+        radius: sparklesConfig.radius,
+        duration: sparklesConfig.duration,
+        startDelay: sparklesConfig.startDelay
+      })}
+    </>
+  );
+}
+
+function RevealAgent({ agent, animationConfig, size = 100 }) {
+  const animationResult = reveal(animationConfig);
+  const { style, sparkles: sparklesConfig } = animationResult;
+  
+  return(
+    <>
+      <motion.svg
+        width={size} 
+        height={size}
+        style={style}
+      >
+        {agent}
+      </motion.svg>
+      {sparklesConfig && sparkles({
+        centerX: sparklesConfig.centerX,
+        centerY: sparklesConfig.centerY,
+        radius: sparklesConfig.radius,
+        duration: sparklesConfig.duration,
+        startDelay: sparklesConfig.startDelay
+      })}
+    </>
+  );
+}
+
+function PushAgent({ agent, animationConfig, size = 100 }) {
+  const animationProps = push(animationConfig);
+  return(
+    <motion.svg
+      width={size} 
+      height={size}
+      {...animationProps}
+    >
+      {agent}
+    </motion.svg>
+  );
+}
+
+function StaticAgent({ agent, staticProps, size = 100 }) {
+  return(
+    <motion.svg
+      width={size} 
+      height={size}
+      {...staticProps}
+    >
+      {agent}
+    </motion.svg>
+  );
+}
+
+export function MyApp({ config = configData }) {
+  // Process config: convert percentage values to pixel values
+  const agentConfigs = processConfig(config);
+
+  return (
+    <div style={{ 
+        width: '100vw', 
+        height: '100vh', 
+        position: 'relative',
+        overflow: 'hidden',  // Prevents scrolling/viewport expansion
+        margin: 0,
+        padding: 0
+    }}>
+      {agentConfigs.map((agentConfig, index) => {
+        const agent = agentRegistry[agentConfig.agent];
+        
+        if (agentConfig.animationType === 'go') {
+          return (
+            <GoAgent 
+              key={index}
+              agent={agent} 
+              animationConfig={agentConfig.animation}
+              size={agentConfig.size}
+            />
+          );
+        } else if (agentConfig.animationType === 'jump') {
+          return (
+            <JumpAgent 
+              key={index}
+              agent={agent} 
+              animationConfig={agentConfig.animation}
+              size={agentConfig.size}
+            />
+          );
+        } else if (agentConfig.animationType === 'hide') {
+          return (
+            <HideAgent 
+              key={index}
+              agent={agent} 
+              animationConfig={agentConfig.animation}
+              size={agentConfig.size}
+            />
+          );
+        } else if (agentConfig.animationType === 'reveal') {
+          return (
+            <RevealAgent 
+              key={index}
+              agent={agent} 
+              animationConfig={agentConfig.animation}
+              size={agentConfig.size}
+            />
+          );
+        } else if (agentConfig.animationType === 'push') {
+          return (
+            <PushAgent 
+              key={index}
+              agent={agent} 
+              animationConfig={agentConfig.animation}
+              size={agentConfig.size}
+            />
+          );
+        } else if (agentConfig.type === 'static') {
+          return (
+            <StaticAgent 
+              key={index}
+              agent={agent} 
+              staticProps={agentConfig.staticProps}
+              size={agentConfig.size}
+            />
+          );
+        }
+        return null;
+      })}
+    </div>
+  );
+}
+
+// Default render (for standalone use)
 createRoot(document.getElementById('root')).render(
     <MyApp />
 );

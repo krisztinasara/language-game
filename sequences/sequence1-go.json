@@ -1,0 +1,27 @@
+{
+  "agentSize": 120,
+  "agents": [
+    {
+      "agent": "square",
+      "animationType": "go",
+      "animation": {
+        "startX": 1,
+        "startY": 3,
+        "endX": 6,
+        "endY": 3,
+        "duration": 3,
+        "amplitude": 40,
+        "frequency": 3
+      }
+    },
+    {
+      "agent": "circle",
+      "type": "static",
+      "position": {
+        "X": 7,
+        "Y": 3
+      }
+    }
+  ]
+}
+

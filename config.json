@@ -1,0 +1,30 @@
+{
+  "agentSize": 150,
+  "agents": [
+    {
+      "agent": "square",
+      "animationType": "push",
+      "animation": {
+        "role": "pusher",
+        "startX": 1,
+        "startY": 1,
+        "endX": 4,
+        "endY": 3,
+        "duration": 2
+      }
+    },
+    {
+      "agent": "circle",
+      "animationType": "push",
+      "animation": {
+        "role": "pushed",
+        "startX": 4,
+        "startY": 3,
+        "endX": 5,
+        "endY": 3,
+        "duration": 2
+      }
+    }
+  ]
+}
+

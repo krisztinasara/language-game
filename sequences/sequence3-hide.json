@@ -1,0 +1,14 @@
+{
+  "agentSize": 150,
+  "agents": [
+    {
+      "agent": "square",
+      "animationType": "hide",
+      "animation": {
+        "X": 4,
+        "Y": 3,
+        "duration": 1.5
+      }
+    }
+  ]
+}

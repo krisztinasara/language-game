@@ -1,0 +1,511 @@
+================================================================================
+CONFIG.JSON DOCUMENTATION
+Language Game - Agent Configuration Guide
+================================================================================
+
+OVERVIEW
+--------
+The config.json file defines all agents (animated and static) that appear in the
+game. Agents are positioned using a grid coordinate system and can have custom
+sizes and animation properties.
+
+================================================================================
+GLOBAL CONFIGURATION
+================================================================================
+
+agentSize (number, optional)
+  Default size in pixels for all agents (width and height are equal).
+  Default: 100
+  Example: "agentSize": 150
+
+  Note: Individual agents can override this with their own "size" property.
+
+================================================================================
+AGENTS ARRAY
+================================================================================
+
+The "agents" array contains all agent definitions. Each agent must have:
+
+agent (string, required)
+  The name of the agent component to use. Must match an entry in the agent
+  registry (e.g., "square", "circle").
+  Example: "agent": "circle"
+
+size (number, optional)
+  Override the global agentSize for this specific agent.
+  Example: "size": 80
+
+================================================================================
+AGENT TYPES
+================================================================================
+
+1. ANIMATED AGENT - "go" Animation Type
+---------------------------------------
+Agents that move in a wavy sinusoidal path from a start position to an end
+position.
+
+Required properties:
+  - "animationType": "go"
+  - "animation": { ... }
+
+Animation object properties:
+  startX (number, required)
+    Starting grid column (0 to gridCols-1).
+    Current grid: 0 to 8 (9 columns total)
+    Example: "startX": 1
+
+  startY (number, required)
+    Starting grid row (0 to gridRows-1).
+    Current grid: 0 to 6 (7 rows total)
+    Example: "startY": 1
+
+  endX (number, required)
+    Ending grid column (0 to gridCols-1).
+    Example: "endX": 7
+
+  endY (number, required)
+    Ending grid row (0 to gridRows-1).
+    Example: "endY": 2
+
+  duration (number, required)
+    Animation duration in seconds.
+    Example: "duration": 3
+
+  amplitude (number, required)
+    Maximum wave amplitude in pixels. Controls how far the agent deviates
+    from the straight line path.
+    Example: "amplitude": 30
+
+  frequency (number, required)
+    Number of complete wave cycles during the animation.
+    Higher values = more wavy motion.
+    Example: "frequency": 3
+
+Example "go" agent:
+{
+  "agent": "square",
+  "animationType": "go",
+  "animation": {
+    "startX": 1,
+    "startY": 1,
+    "endX": 7,
+    "endY": 2,
+    "duration": 3,
+    "amplitude": 30,
+    "frequency": 3
+  }
+}
+
+Animation behavior:
+  - Movement starts slow, speeds up in the middle, slows down at the end
+    (easeInOutCubic easing)
+  - Wave amplitude is smaller at the beginning and end, larger in the middle
+  - Agent center is positioned at the grid coordinates
+
+================================================================================
+
+2. ANIMATED AGENT - "jump" Animation Type
+------------------------------------------
+Agents that move in a parabolic arc (jumping motion) from a start position to an
+end position. The jump height is automatically adjusted to ensure the agent
+never goes outside the screen boundaries.
+
+Required properties:
+  - "animationType": "jump"
+  - "animation": { ... }
+
+Animation object properties:
+  startX (number, required)
+    Starting grid column (0 to gridCols-1).
+    Current grid: 0 to 8 (9 columns total)
+    Example: "startX": 1
+
+  startY (number, required)
+    Starting grid row (0 to gridRows-1).
+    Current grid: 0 to 6 (7 rows total)
+    Example: "startY": 1
+
+  endX (number, required)
+    Ending grid column (0 to gridCols-1).
+    Example: "endX": 7
+
+  endY (number, required)
+    Ending grid row (0 to gridRows-1).
+    Example: "endY": 2
+
+  duration (number, optional)
+    Animation duration in seconds.
+    Default: 2
+    Example: "duration": 3
+
+  jumpHeight (number, optional)
+    Desired jump height in pixels. The actual jump height will be automatically
+    reduced if it would cause the agent to go outside the screen boundaries.
+    Default: 100
+    Example: "jumpHeight": 150
+
+Example "jump" agent:
+{
+  "agent": "circle",
+  "animationType": "jump",
+  "animation": {
+    "startX": 1,
+    "startY": 1,
+    "endX": 7,
+    "endY": 2,
+    "duration": 2,
+    "jumpHeight": 100
+  }
+}
+
+Animation behavior:
+  - Movement follows a parabolic arc (jumping motion)
+  - Movement starts slow, speeds up in the middle, slows down at the end
+    (easeInOutCubic easing)
+  - Jump height is automatically adapted to stay within screen bounds
+  - Final positions are clamped to ensure agent never goes outside viewport
+  - Agent center is positioned at the grid coordinates
+
+================================================================================
+
+3. ANIMATED AGENT - "hide" Animation Type
+------------------------------------------
+Agents that shrink from their full size to zero (invisible point) at a specific
+position. The agent scales from its center point, maintaining its position.
+
+Required properties:
+  - "animationType": "hide"
+  - "animation": { ... }
+
+Animation object properties:
+  X (number, required)
+    Grid column position where the agent will hide (0 to gridCols-1).
+    Current grid: 0 to 8 (9 columns total)
+    Example: "X": 4
+
+  Y (number, required)
+    Grid row position where the agent will hide (0 to gridRows-1).
+    Current grid: 0 to 6 (7 rows total)
+    Example: "Y": 3
+
+  duration (number, optional)
+    Animation duration in seconds.
+    Default: 1
+    Example: "duration": 1.5
+
+Example "hide" agent:
+{
+  "agent": "circle",
+  "animationType": "hide",
+  "animation": {
+    "X": 4,
+    "Y": 3,
+    "duration": 1
+  }
+}
+
+Animation behavior:
+  - Agent scales from full size (scale: 1) to zero (scale: 0)
+  - Scaling happens from the agent's center point
+  - Agent position remains fixed at the specified grid coordinates
+  - Movement starts slow, speeds up in the middle, slows down at the end
+    (easeInOutCubic easing)
+  - Agent center is positioned at the grid coordinates
+
+================================================================================
+
+4. ANIMATED AGENT - "reveal" Animation Type
+--------------------------------------------
+Agents that grow from zero (invisible point) to their full size at a specific
+position. The agent scales from its center point, maintaining its position.
+
+Required properties:
+  - "animationType": "reveal"
+  - "animation": { ... }
+
+Animation object properties:
+  X (number, required)
+    Grid column position where the agent will reveal (0 to gridCols-1).
+    Current grid: 0 to 8 (9 columns total)
+    Example: "X": 4
+
+  Y (number, required)
+    Grid row position where the agent will reveal (0 to gridRows-1).
+    Current grid: 0 to 6 (7 rows total)
+    Example: "Y": 3
+
+  duration (number, optional)
+    Animation duration in seconds.
+    Default: 1
+    Example: "duration": 1.5
+
+Example "reveal" agent:
+{
+  "agent": "circle",
+  "animationType": "reveal",
+  "animation": {
+    "X": 4,
+    "Y": 3,
+    "duration": 1
+  }
+}
+
+Animation behavior:
+  - Agent scales from zero (scale: 0) to full size (scale: 1)
+  - Scaling happens from the agent's center point
+  - Agent position remains fixed at the specified grid coordinates
+  - Movement starts slow, speeds up in the middle, slows down at the end
+    (easeInOutCubic easing)
+  - Agent center is positioned at the grid coordinates
+
+================================================================================
+
+5. ANIMATED AGENT - "push" Animation Type
+------------------------------------------
+Agents that participate in a pushing interaction. One agent (the "pusher") moves
+to another agent's position, while the other agent (the "pushed") gets kicked
+away from its original position. Both agents must be defined with the same
+duration to stay synchronized.
+
+Required properties:
+  - "animationType": "push"
+  - "animation": { ... }
+
+Animation object properties:
+  role (string, required)
+    Either "pusher" or "pushed" to define the agent's role in the interaction.
+    Example: "role": "pusher"
+
+  startX (number, required)
+    Starting grid column (0 to gridCols-1).
+    Current grid: 0 to 8 (9 columns total)
+    Example: "startX": 1
+
+  startY (number, required)
+    Starting grid row (0 to gridRows-1).
+    Current grid: 0 to 6 (7 rows total)
+    Example: "startY": 1
+
+  endX (number, required)
+    Ending grid column (0 to gridCols-1).
+    For pusher: the position where the pushed agent was (pusher takes this spot)
+    For pushed: where the agent gets kicked to
+    Example: "endX": 4
+
+  endY (number, required)
+    Ending grid row (0 to gridRows-1).
+    For pusher: the position where the pushed agent was (pusher takes this spot)
+    For pushed: where the agent gets kicked to
+    Example: "endY": 3
+
+  duration (number, optional)
+    Animation duration in seconds. Both pusher and pushed should use the same
+    duration to stay synchronized.
+    Default: 2
+    Example: "duration": 2
+
+Example "push" agents (both must be defined):
+{
+  "agent": "square",
+  "animationType": "push",
+  "animation": {
+    "role": "pusher",
+    "startX": 1,
+    "startY": 1,
+    "endX": 4,
+    "endY": 3,
+    "duration": 2
+  }
+},
+{
+  "agent": "circle",
+  "animationType": "push",
+  "animation": {
+    "role": "pushed",
+    "startX": 4,
+    "startY": 3,
+    "endX": 6,
+    "endY": 3,
+    "duration": 2
+  }
+}
+
+Animation behavior:
+  - Pusher: Moves from its start position to the pushed agent's position
+    - Uses easeInOutCubic easing (starts slow, speeds up, slows down)
+    - Takes the pushed agent's original position
+  - Pushed: Gets kicked away from its original position
+    - Uses easeOutCubic easing (starts fast, slows down) - like being hit
+    - Moves to a new position (where it gets pushed to)
+  - Both animations must have the same duration to stay synchronized
+  - Agent center is positioned at the grid coordinates
+
+Important:
+  - The pusher's endX/endY should match the pushed agent's startX/startY
+  - Both agents should use the same duration value
+  - Define both pusher and pushed agents in the config for the interaction
+
+================================================================================
+
+6. STATIC AGENT
+---------------
+Agents that remain fixed at a specific position on the screen.
+
+Required properties:
+  - "type": "static"
+  - "position": { ... }
+
+Position object properties:
+  X (number, required)
+    Grid column position (0 to gridCols-1).
+    Current grid: 0 to 8 (9 columns total)
+    Example: "X": 1
+
+  Y (number, required)
+    Grid row position (0 to gridRows-1).
+    Current grid: 0 to 6 (7 rows total)
+    Example: "Y": 1
+
+Example static agent:
+{
+  "agent": "circle",
+  "type": "static",
+  "position": {
+    "X": 1,
+    "Y": 1
+  }
+}
+
+Note: Agent center is positioned at the grid coordinates.
+
+================================================================================
+GRID COORDINATE SYSTEM
+================================================================================
+
+The grid system divides the viewport into a grid for positioning agents.
+
+Current grid dimensions (defined in components/board/grid.js):
+  - Columns: 9 (indices 0-8)
+  - Rows: 7 (indices 0-6)
+
+Grid coordinates:
+  - (0, 0) = top-left corner
+  - (8, 6) = bottom-right corner (maximum valid coordinates)
+  - Coordinates are 0-indexed
+
+Important:
+  - Agents are centered on grid coordinates
+  - Using maximum coordinates (8, 6) will position the agent center at the
+    viewport edge, so half the agent may be outside the visible area
+  - For full visibility, use coordinates slightly inside the maximum range
+
+================================================================================
+COMPLETE EXAMPLE
+================================================================================
+
+{
+  "agentSize": 150,
+  "agents": [
+    {
+      "agent": "square",
+      "animationType": "go",
+      "size": 120,
+      "animation": {
+        "startX": 1,
+        "startY": 1,
+        "endX": 7,
+        "endY": 2,
+        "duration": 3,
+        "amplitude": 30,
+        "frequency": 3
+      }
+    },
+    {
+      "agent": "circle",
+      "animationType": "go",
+      "animation": {
+        "startX": 1,
+        "startY": 1,
+        "endX": 6,
+        "endY": 2,
+        "duration": 3,
+        "amplitude": 40,
+        "frequency": 2
+      }
+    },
+    {
+      "agent": "square",
+      "animationType": "jump",
+      "animation": {
+        "startX": 2,
+        "startY": 3,
+        "endX": 6,
+        "endY": 4,
+        "duration": 2,
+        "jumpHeight": 120
+      }
+    },
+    {
+      "agent": "circle",
+      "animationType": "hide",
+      "animation": {
+        "X": 4,
+        "Y": 3,
+        "duration": 1
+      }
+    },
+    {
+      "agent": "square",
+      "animationType": "reveal",
+      "animation": {
+        "X": 5,
+        "Y": 4,
+        "duration": 1.5
+      }
+    },
+    {
+      "agent": "square",
+      "animationType": "push",
+      "animation": {
+        "role": "pusher",
+        "startX": 2,
+        "startY": 2,
+        "endX": 5,
+        "endY": 4,
+        "duration": 2
+      }
+    },
+    {
+      "agent": "circle",
+      "animationType": "push",
+      "animation": {
+        "role": "pushed",
+        "startX": 5,
+        "startY": 4,
+        "endX": 7,
+        "endY": 4,
+        "duration": 2
+      }
+    },
+    {
+      "agent": "circle",
+      "type": "static",
+      "position": {
+        "X": 1,
+        "Y": 1
+      }
+    }
+  ]
+}
+
+================================================================================
+NOTES
+================================================================================
+
+- All coordinates use the agent's center point, not the top-left corner
+- Grid dimensions can be changed in components/board/grid.js
+- Animation timing is frame-based and will adapt to viewport size
+- Agent sizes are in pixels and apply to both width and height (square agents)
+
+================================================================================
+
