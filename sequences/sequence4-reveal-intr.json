@@ -3,7 +3,7 @@
   "agents": [
     {
       "agent": "circle",
-      "animationType": "reveal",
+      "animationType": "reveal-intr",
       "animation": {
         "X": 4,
         "Y": 3,
@@ -12,4 +12,3 @@
     }
   ]
 }
-

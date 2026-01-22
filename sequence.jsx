@@ -8,11 +8,11 @@ import { SequencePlayer } from './components/sequence/player';
  * The player will automatically load and play them one after another.
  */
 const sequence = [
-  './sequences/sequence1-go.json',      // Wavy "go" movement
-  './sequences/sequence2-jump.json',    // Parabolic "jump" movement
-  './sequences/sequence3-hide.json',    // Shrinking "hide" animation
-  './sequences/sequence4-reveal.json',  // Growing "reveal" animation
-  './sequences/sequence5-push.json',    // "Push" interaction
+  './sequences/sequence1-go-intr.json',      // Wavy "go-intr" movement
+  './sequences/sequence2-jump-intr.json',    // Parabolic "jump-intr" movement
+  './sequences/sequence3-hide-intr.json',    // Shrinking "hide-intr" animation
+  './sequences/sequence4-reveal-intr.json',  // Growing "reveal-intr" animation
+  './sequences/sequence5-push-tr.json',    // "push-tr" interaction
 ];
 
 function SequenceApp() {

@@ -27,7 +27,7 @@ function processConfig(jsonConfig) {
     const agentSize = agentConfig.size ?? defaultSize;
     const halfSize = agentSize / 2;
 
-    if (agentConfig.animationType === 'go' && agentConfig.animation) {
+    if (agentConfig.animationType === 'go-intr' && agentConfig.animation) {
       const anim = agentConfig.animation;
       const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
       const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
@@ -47,7 +47,7 @@ function processConfig(jsonConfig) {
       };
     }
 
-    if (agentConfig.animationType === 'jump' && agentConfig.animation) {
+    if (agentConfig.animationType === 'jump-intr' && agentConfig.animation) {
       const anim = agentConfig.animation;
       const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
       const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
@@ -67,7 +67,7 @@ function processConfig(jsonConfig) {
       };
     }
 
-    if (agentConfig.animationType === 'hide' && agentConfig.animation) {
+    if (agentConfig.animationType === 'hide-intr' && agentConfig.animation) {
       const anim = agentConfig.animation;
       const position = gridToPixels(anim.X ?? 0, anim.Y ?? 0);
 
@@ -83,7 +83,7 @@ function processConfig(jsonConfig) {
       };
     }
 
-    if (agentConfig.animationType === 'reveal' && agentConfig.animation) {
+    if (agentConfig.animationType === 'reveal-intr' && agentConfig.animation) {
       const anim = agentConfig.animation;
       const position = gridToPixels(anim.X ?? 0, anim.Y ?? 0);
 
@@ -99,7 +99,7 @@ function processConfig(jsonConfig) {
       };
     }
 
-    if (agentConfig.animationType === 'push' && agentConfig.animation) {
+    if (agentConfig.animationType === 'push-tr' && agentConfig.animation) {
       const anim = agentConfig.animation;
       const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
       const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
@@ -254,7 +254,7 @@ export function MyApp({ config = configData }) {
       {agentConfigs.map((agentConfig, index) => {
         const agent = agentRegistry[agentConfig.agent];
         
-        if (agentConfig.animationType === 'go') {
+        if (agentConfig.animationType === 'go-intr') {
           return (
             <GoAgent 
               key={index}
@@ -263,7 +263,7 @@ export function MyApp({ config = configData }) {
               size={agentConfig.size}
             />
           );
-        } else if (agentConfig.animationType === 'jump') {
+        } else if (agentConfig.animationType === 'jump-intr') {
           return (
             <JumpAgent 
               key={index}
@@ -272,7 +272,7 @@ export function MyApp({ config = configData }) {
               size={agentConfig.size}
             />
           );
-        } else if (agentConfig.animationType === 'hide') {
+        } else if (agentConfig.animationType === 'hide-intr') {
           return (
             <HideAgent 
               key={index}
@@ -281,7 +281,7 @@ export function MyApp({ config = configData }) {
               size={agentConfig.size}
             />
           );
-        } else if (agentConfig.animationType === 'reveal') {
+        } else if (agentConfig.animationType === 'reveal-intr') {
           return (
             <RevealAgent 
               key={index}
@@ -290,7 +290,7 @@ export function MyApp({ config = configData }) {
               size={agentConfig.size}
             />
           );
-        } else if (agentConfig.animationType === 'push') {
+        } else if (agentConfig.animationType === 'push-tr') {
           return (
             <PushAgent 
               key={index}

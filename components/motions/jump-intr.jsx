@@ -68,4 +68,3 @@ export function jump({
       style: { position: 'absolute', x, y }
     }
   }
-

@@ -3,15 +3,14 @@
   "agents": [
     {
       "agent": "square",
-      "animationType": "go",
+      "animationType": "jump-intr",
       "animation": {
-        "startX": 1,
-        "startY": 3,
+        "startX": 2,
+        "startY": 4,
         "endX": 6,
-        "endY": 3,
-        "duration": 3,
-        "amplitude": 40,
-        "frequency": 3
+        "endY": 4,
+        "duration": 1.5,
+        "jumpHeight": 400
       }
     },
     {
@@ -19,9 +18,8 @@
       "type": "static",
       "position": {
         "X": 7,
-        "Y": 3
+        "Y": 4
       }
     }
   ]
 }
-

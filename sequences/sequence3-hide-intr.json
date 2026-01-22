@@ -3,7 +3,7 @@
   "agents": [
     {
       "agent": "square",
-      "animationType": "hide",
+      "animationType": "hide-intr",
       "animation": {
         "X": 4,
         "Y": 3,

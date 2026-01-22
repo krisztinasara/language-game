@@ -39,13 +39,13 @@ size (number, optional)
 AGENT TYPES
 ================================================================================
 
-1. ANIMATED AGENT - "go" Animation Type
+1. ANIMATED AGENT - "go-intr" Animation Type
 ---------------------------------------
 Agents that move in a wavy sinusoidal path from a start position to an end
 position.
 
 Required properties:
-  - "animationType": "go"
+  - "animationType": "go-intr"
   - "animation": { ... }
 
 Animation object properties:
@@ -81,10 +81,10 @@ Animation object properties:
     Higher values = more wavy motion.
     Example: "frequency": 3
 
-Example "go" agent:
+Example "go-intr" agent:
 {
   "agent": "square",
-  "animationType": "go",
+  "animationType": "go-intr",
   "animation": {
     "startX": 1,
     "startY": 1,
@@ -104,14 +104,14 @@ Animation behavior:
 
 ================================================================================
 
-2. ANIMATED AGENT - "jump" Animation Type
+2. ANIMATED AGENT - "jump-intr" Animation Type
 ------------------------------------------
 Agents that move in a parabolic arc (jumping motion) from a start position to an
 end position. The jump height is automatically adjusted to ensure the agent
 never goes outside the screen boundaries.
 
 Required properties:
-  - "animationType": "jump"
+  - "animationType": "jump-intr"
   - "animation": { ... }
 
 Animation object properties:
@@ -144,10 +144,10 @@ Animation object properties:
     Default: 100
     Example: "jumpHeight": 150
 
-Example "jump" agent:
+Example "jump-intr" agent:
 {
   "agent": "circle",
-  "animationType": "jump",
+  "animationType": "jump-intr",
   "animation": {
     "startX": 1,
     "startY": 1,
@@ -168,13 +168,13 @@ Animation behavior:
 
 ================================================================================
 
-3. ANIMATED AGENT - "hide" Animation Type
+3. ANIMATED AGENT - "hide-intr" Animation Type
 ------------------------------------------
 Agents that shrink from their full size to zero (invisible point) at a specific
 position. The agent scales from its center point, maintaining its position.
 
 Required properties:
-  - "animationType": "hide"
+  - "animationType": "hide-intr"
   - "animation": { ... }
 
 Animation object properties:
@@ -193,10 +193,10 @@ Animation object properties:
     Default: 1
     Example: "duration": 1.5
 
-Example "hide" agent:
+Example "hide-intr" agent:
 {
   "agent": "circle",
-  "animationType": "hide",
+  "animationType": "hide-intr",
   "animation": {
     "X": 4,
     "Y": 3,
@@ -214,13 +214,13 @@ Animation behavior:
 
 ================================================================================
 
-4. ANIMATED AGENT - "reveal" Animation Type
+4. ANIMATED AGENT - "reveal-intr" Animation Type
 --------------------------------------------
 Agents that grow from zero (invisible point) to their full size at a specific
 position. The agent scales from its center point, maintaining its position.
 
 Required properties:
-  - "animationType": "reveal"
+  - "animationType": "reveal-intr"
   - "animation": { ... }
 
 Animation object properties:
@@ -239,10 +239,10 @@ Animation object properties:
     Default: 1
     Example: "duration": 1.5
 
-Example "reveal" agent:
+Example "reveal-intr" agent:
 {
   "agent": "circle",
-  "animationType": "reveal",
+  "animationType": "reveal-intr",
   "animation": {
     "X": 4,
     "Y": 3,
@@ -260,7 +260,7 @@ Animation behavior:
 
 ================================================================================
 
-5. ANIMATED AGENT - "push" Animation Type
+5. ANIMATED AGENT - "push-tr" Animation Type
 ------------------------------------------
 Agents that participate in a pushing interaction. One agent (the "pusher") moves
 to another agent's position, while the other agent (the "pushed") gets kicked
@@ -268,7 +268,7 @@ away from its original position. Both agents must be defined with the same
 duration to stay synchronized.
 
 Required properties:
-  - "animationType": "push"
+  - "animationType": "push-tr"
   - "animation": { ... }
 
 Animation object properties:
@@ -304,10 +304,10 @@ Animation object properties:
     Default: 2
     Example: "duration": 2
 
-Example "push" agents (both must be defined):
+Example "push-tr" agents (both must be defined):
 {
   "agent": "square",
-  "animationType": "push",
+  "animationType": "push-tr",
   "animation": {
     "role": "pusher",
     "startX": 1,
@@ -319,7 +319,7 @@ Example "push" agents (both must be defined):
 },
 {
   "agent": "circle",
-  "animationType": "push",
+  "animationType": "push-tr",
   "animation": {
     "role": "pushed",
     "startX": 4,
@@ -408,7 +408,7 @@ COMPLETE EXAMPLE
   "agents": [
     {
       "agent": "square",
-      "animationType": "go",
+      "animationType": "go-intr",
       "size": 120,
       "animation": {
         "startX": 1,
@@ -422,7 +422,7 @@ COMPLETE EXAMPLE
     },
     {
       "agent": "circle",
-      "animationType": "go",
+      "animationType": "go-intr",
       "animation": {
         "startX": 1,
         "startY": 1,
@@ -435,7 +435,7 @@ COMPLETE EXAMPLE
     },
     {
       "agent": "square",
-      "animationType": "jump",
+      "animationType": "jump-intr",
       "animation": {
         "startX": 2,
         "startY": 3,
@@ -447,7 +447,7 @@ COMPLETE EXAMPLE
     },
     {
       "agent": "circle",
-      "animationType": "hide",
+      "animationType": "hide-intr",
       "animation": {
         "X": 4,
         "Y": 3,
@@ -456,7 +456,7 @@ COMPLETE EXAMPLE
     },
     {
       "agent": "square",
-      "animationType": "reveal",
+      "animationType": "reveal-intr",
       "animation": {
         "X": 5,
         "Y": 4,
@@ -465,7 +465,7 @@ COMPLETE EXAMPLE
     },
     {
       "agent": "square",
-      "animationType": "push",
+      "animationType": "push-tr",
       "animation": {
         "role": "pusher",
         "startX": 2,
@@ -477,7 +477,7 @@ COMPLETE EXAMPLE
     },
     {
       "agent": "circle",
-      "animationType": "push",
+      "animationType": "push-tr",
       "animation": {
         "role": "pushed",
         "startX": 5,
