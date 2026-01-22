@@ -14,7 +14,7 @@
       }
     },
     {
-      "agent": "circle",
+      "agent": "agent-1",
       "type": "static",
       "position": {
         "X": 7,

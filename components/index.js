@@ -1,7 +1,9 @@
 export { circle } from './items/circle';
 export { square } from './items/square';
+export { agent1 } from './items/agent-1';
 export { go } from './motions/go-intr';
 export { jump } from './motions/jump-intr';
 export { hide } from './motions/hide-intr';
 export { reveal } from './motions/reveal-intr';
 export { push } from './motions/push-tr';
+export { hideTr } from './motions/hide-tr';

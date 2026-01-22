@@ -13,6 +13,7 @@ const sequence = [
   './sequences/sequence3-hide-intr.json',    // Shrinking "hide-intr" animation
   './sequences/sequence4-reveal-intr.json',  // Growing "reveal-intr" animation
   './sequences/sequence5-push-tr.json',    // "push-tr" interaction
+  './sequences/sequence6-hide-tr.json'      // "hide-tr" covering movement
 ];
 
 function SequenceApp() {

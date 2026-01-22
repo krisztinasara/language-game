@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { motion } from 'motion/react';
-import { square, circle, go, jump, hide, reveal, push } from './components';
+import { square, circle, agent1, go, jump, hide, reveal, push, hideTr } from './components';
 import { sparkles } from './components/effects/sparkles';
 import configData from './config.json';
 import { gridToPixels } from './components/board/grid';
@@ -15,7 +15,8 @@ For the time being, we start with a viewport percentages and not a gameboard wit
 // Agent registry - maps agent names to components
 const agentRegistry = {
   square: square,
-  circle: circle
+  circle: circle,
+  'agent-1': agent1
 };
 
 // Helper function to convert JSON config to runtime config with pixel values
@@ -118,6 +119,24 @@ function processConfig(jsonConfig) {
       };
     }
 
+    if (agentConfig.animationType === 'hide-tr' && agentConfig.animation) {
+      const anim = agentConfig.animation;
+      const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
+      const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
+
+      return {
+        ...agentConfig,
+        size: agentSize,
+        animation: {
+          startX: start.x - halfSize,
+          startY: start.y - halfSize,
+          endX: end.x - halfSize,
+          endY: end.y - halfSize,
+          duration: anim.duration ?? 2
+        }
+      };
+    }
+
     if (agentConfig.type === 'static' && agentConfig.position) {
       const { X = 0, Y = 0 } = agentConfig.position;
       const position = gridToPixels(X, Y);
@@ -142,26 +161,40 @@ function processConfig(jsonConfig) {
 function GoAgent({ agent, animationConfig, size = 100 }) {
   const animationProps = go(animationConfig);
   return(
-    <motion.svg
-      width={size} 
-      height={size}
-      {...animationProps}
+    <motion.div
+      style={{
+        width: size,
+        height: size,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...animationProps.style
+      }}
     >
-      {agent}
-    </motion.svg>
+      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {agent}
+      </div>
+    </motion.div>
   );
 }
 
 function JumpAgent({ agent, animationConfig, size = 100 }) {
   const animationProps = jump(animationConfig);
   return(
-    <motion.svg
-      width={size} 
-      height={size}
-      {...animationProps}
+    <motion.div
+      style={{
+        width: size,
+        height: size,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...animationProps.style
+      }}
     >
-      {agent}
-    </motion.svg>
+      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {agent}
+      </div>
+    </motion.div>
   );
 }
 
@@ -171,13 +204,20 @@ function HideAgent({ agent, animationConfig, size = 100 }) {
   
   return(
     <>
-      <motion.svg
-        width={size} 
-        height={size}
-        style={style}
+      <motion.div
+        style={{
+          width: size,
+          height: size,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          ...style
+        }}
       >
-        {agent}
-      </motion.svg>
+        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {agent}
+        </div>
+      </motion.div>
       {sparklesConfig && sparkles({
         centerX: sparklesConfig.centerX,
         centerY: sparklesConfig.centerY,
@@ -195,13 +235,20 @@ function RevealAgent({ agent, animationConfig, size = 100 }) {
   
   return(
     <>
-      <motion.svg
-        width={size} 
-        height={size}
-        style={style}
+      <motion.div
+        style={{
+          width: size,
+          height: size,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          ...style
+        }}
       >
-        {agent}
-      </motion.svg>
+        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {agent}
+        </div>
+      </motion.div>
       {sparklesConfig && sparkles({
         centerX: sparklesConfig.centerX,
         centerY: sparklesConfig.centerY,
@@ -216,25 +263,59 @@ function RevealAgent({ agent, animationConfig, size = 100 }) {
 function PushAgent({ agent, animationConfig, size = 100 }) {
   const animationProps = push(animationConfig);
   return(
-    <motion.svg
-      width={size} 
-      height={size}
-      {...animationProps}
+    <motion.div
+      style={{
+        width: size,
+        height: size,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...animationProps.style
+      }}
     >
-      {agent}
-    </motion.svg>
+      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {agent}
+      </div>
+    </motion.div>
+  );
+}
+
+function HideTrAgent({ agent, animationConfig, size = 100 }) {
+  const animationProps = hideTr(animationConfig);
+  return(
+    <motion.div
+      style={{
+        width: size,
+        height: size,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...animationProps.style
+      }}
+    >
+      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {agent}
+      </div>
+    </motion.div>
   );
 }
 
 function StaticAgent({ agent, staticProps, size = 100 }) {
   return(
-    <motion.svg
-      width={size} 
-      height={size}
-      {...staticProps}
+    <motion.div
+      style={{
+        width: size,
+        height: size,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...staticProps.style
+      }}
     >
-      {agent}
-    </motion.svg>
+      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {agent}
+      </div>
+    </motion.div>
   );
 }
 
@@ -293,6 +374,15 @@ export function MyApp({ config = configData }) {
         } else if (agentConfig.animationType === 'push-tr') {
           return (
             <PushAgent 
+              key={index}
+              agent={agent} 
+              animationConfig={agentConfig.animation}
+              size={agentConfig.size}
+            />
+          );
+        } else if (agentConfig.animationType === 'hide-tr') {
+          return (
+            <HideTrAgent 
               key={index}
               agent={agent} 
               animationConfig={agentConfig.animation}

@@ -14,7 +14,7 @@
       }
     },
     {
-      "agent": "circle",
+      "agent": "agent-1",
       "animationType": "push-tr",
       "animation": {
         "role": "pushed",
