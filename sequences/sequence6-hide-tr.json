@@ -2,7 +2,7 @@
   "agentSize": 120,
   "agents": [
     {
-      "agent": "agent-1",
+      "agent": "agent-1-a",
       "type": "static",
       "position": {
         "X": 4,
@@ -10,7 +10,7 @@
       }
     },
     {
-      "agent": "square",
+      "agent": "agent-3-a",
       "animationType": "hide-tr",
       "animation": {
         "startX": 4,

@@ -2,7 +2,7 @@
   "agentSize": 150,
   "agents": [
     {
-      "agent": "agent-1",
+      "agent": "agent-4-a",
       "animationType": "reveal-intr",
       "animation": {
         "X": 4,

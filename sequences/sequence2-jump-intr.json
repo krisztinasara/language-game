@@ -2,7 +2,7 @@
   "agentSize": 120,
   "agents": [
     {
-      "agent": "square",
+      "agent": "agent-5-a",
       "animationType": "jump-intr",
       "animation": {
         "startX": 2,
@@ -14,7 +14,7 @@
       }
     },
     {
-      "agent": "agent-1",
+      "agent": "agent-4-b",
       "type": "static",
       "position": {
         "X": 7,

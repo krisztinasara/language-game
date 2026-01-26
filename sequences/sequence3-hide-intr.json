@@ -2,7 +2,7 @@
   "agentSize": 150,
   "agents": [
     {
-      "agent": "square",
+      "agent": "agent-1-b",
       "animationType": "hide-intr",
       "animation": {
         "X": 4,

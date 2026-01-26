@@ -1,6 +1,15 @@
 export { circle } from './items/circle';
 export { square } from './items/square';
-export { agent1 } from './items/agent-1';
+export { agent1a } from './items/agent-1-a';
+export { agent1b } from './items/agent-1-b';
+export { agent2a } from './items/agent-2-a';
+export { agent2b } from './items/agent-2-b';
+export { agent3a } from './items/agent-3-a';
+export { agent3b } from './items/agent-3-b';
+export { agent4a } from './items/agent-4-a';
+export { agent4b } from './items/agent-4-b';
+export { agent5a } from './items/agent-5-a';
+export { agent5b } from './items/agent-5-b';
 export { go } from './motions/go-intr';
 export { jump } from './motions/jump-intr';
 export { hide } from './motions/hide-intr';

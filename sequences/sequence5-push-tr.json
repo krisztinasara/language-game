@@ -2,7 +2,7 @@
   "agentSize": 130,
   "agents": [
     {
-      "agent": "square",
+      "agent": "agent-2-b",
       "animationType": "push-tr",
       "animation": {
         "role": "pusher",
@@ -14,7 +14,7 @@
       }
     },
     {
-      "agent": "agent-1",
+      "agent": "agent-5-b",
       "animationType": "push-tr",
       "animation": {
         "role": "pushed",

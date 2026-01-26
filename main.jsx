@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { motion } from 'motion/react';
-import { square, circle, agent1, go, jump, hide, reveal, push, hideTr } from './components';
+import { square, circle, agent1a, agent1b, agent2a, agent2b, agent3a, agent3b, agent4a, agent4b, agent5a, agent5b, go, jump, hide, reveal, push, hideTr } from './components';
 import { sparkles } from './components/effects/sparkles';
 import configData from './config.json';
 import { gridToPixels } from './components/board/grid';
@@ -14,9 +14,18 @@ For the time being, we start with a viewport percentages and not a gameboard wit
 
 // Agent registry - maps agent names to components
 const agentRegistry = {
-  square: square,
-  circle: circle,
-  'agent-1': agent1
+  square,
+  circle,
+  'agent-1-a': agent1a,
+  'agent-1-b': agent1b,
+  'agent-2-a': agent2a,
+  'agent-2-b': agent2b,
+  'agent-3-a': agent3a,
+  'agent-3-b': agent3b,
+  'agent-4-a': agent4a,
+  'agent-4-b': agent4b,
+  'agent-5-a': agent5a,
+  'agent-5-b': agent5b
 };
 
 // Helper function to convert JSON config to runtime config with pixel values
