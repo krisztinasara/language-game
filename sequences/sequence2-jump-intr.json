@@ -1,5 +1,5 @@
 {
-  "agentSize": 120,
+  "agentSize": 175,
   "agents": [
     {
       "agent": "agent-5-a",
@@ -10,7 +10,7 @@
         "endX": 6,
         "endY": 4,
         "duration": 1.5,
-        "jumpHeight": 400
+        "jumpHeight": 500
       }
     },
     {

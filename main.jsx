@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { motion } from 'motion/react';
-import { square, circle, agent1a, agent1b, agent2a, agent2b, agent3a, agent3b, agent4a, agent4b, agent5a, agent5b, go, jump, hide, reveal, push, hideTr } from './components';
+import { agent1a, agent1b, agent2a, agent2b, agent3a, agent3b, agent4a, agent4b, agent5a, agent5b, go, jump, hide, reveal, push, hideTr, revealTr } from './components';
 import { sparkles } from './components/effects/sparkles';
 import configData from './config.json';
 import { gridToPixels } from './components/board/grid';
@@ -14,8 +14,6 @@ For the time being, we start with a viewport percentages and not a gameboard wit
 
 // Agent registry - maps agent names to components
 const agentRegistry = {
-  square,
-  circle,
   'agent-1-a': agent1a,
   'agent-1-b': agent1b,
   'agent-2-a': agent2a,
@@ -129,6 +127,24 @@ function processConfig(jsonConfig) {
     }
 
     if (agentConfig.animationType === 'hide-tr' && agentConfig.animation) {
+      const anim = agentConfig.animation;
+      const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
+      const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
+
+      return {
+        ...agentConfig,
+        size: agentSize,
+        animation: {
+          startX: start.x - halfSize,
+          startY: start.y - halfSize,
+          endX: end.x - halfSize,
+          endY: end.y - halfSize,
+          duration: anim.duration ?? 2
+        }
+      };
+    }
+
+    if (agentConfig.animationType === 'reveal-tr' && agentConfig.animation) {
       const anim = agentConfig.animation;
       const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
       const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
@@ -309,6 +325,26 @@ function HideTrAgent({ agent, animationConfig, size = 100 }) {
   );
 }
 
+function RevealTrAgent({ agent, animationConfig, size = 100 }) {
+  const animationProps = revealTr(animationConfig);
+  return(
+    <motion.div
+      style={{
+        width: size,
+        height: size,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...animationProps.style
+      }}
+    >
+      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {agent}
+      </div>
+    </motion.div>
+  );
+}
+
 function StaticAgent({ agent, staticProps, size = 100 }) {
   return(
     <motion.div
@@ -392,6 +428,15 @@ export function MyApp({ config = configData }) {
         } else if (agentConfig.animationType === 'hide-tr') {
           return (
             <HideTrAgent 
+              key={index}
+              agent={agent} 
+              animationConfig={agentConfig.animation}
+              size={agentConfig.size}
+            />
+          );
+        } else if (agentConfig.animationType === 'reveal-tr') {
+          return (
+            <RevealTrAgent 
               key={index}
               agent={agent} 
               animationConfig={agentConfig.animation}

@@ -1,5 +1,5 @@
 {
-  "agentSize": 150,
+  "agentSize": 175,
   "agents": [
     {
       "agent": "agent-4-a",
@@ -7,7 +7,7 @@
       "animation": {
         "X": 4,
         "Y": 3,
-        "duration": 1.5
+        "duration": 1
       }
     }
   ]

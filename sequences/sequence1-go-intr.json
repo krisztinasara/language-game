@@ -1,5 +1,5 @@
 {
-  "agentSize": 120,
+  "agentSize": 175,
   "agents": [
     {
       "agent": "agent-3-b",
@@ -10,8 +10,8 @@
         "endX": 6,
         "endY": 3,
         "duration": 3,
-        "amplitude": 40,
-        "frequency": 3
+        "amplitude": 75,
+        "frequency": 4
       }
     },
     {

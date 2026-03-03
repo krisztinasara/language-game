@@ -28,8 +28,8 @@ The "agents" array contains all agent definitions. Each agent must have:
 
 agent (string, required)
   The name of the agent component to use. Must match an entry in the agent
-  registry (e.g., "square", "circle").
-  Example: "agent": "circle"
+  registry (e.g., "agent-1-a", "agent-2-b").
+  Example: "agent": "agent-1-a"
 
 size (number, optional)
   Override the global agentSize for this specific agent.
@@ -347,7 +347,38 @@ Important:
 
 ================================================================================
 
-6. STATIC AGENT
+6. ANIMATED AGENT - "hide-tr" Animation Type
+-------------------------------------------
+One agent moves to cover another (e.g. from below/above to the same cell as a
+static agent). The covering agent moves from start to end; end is the position
+of the agent being covered.
+
+Required properties:
+  - "animationType": "hide-tr"
+  - "animation": { startX, startY, endX, endY, duration }
+
+Animation: startX, startY = grid where the covering agent starts; endX, endY =
+grid where it ends (on top of the other agent). duration in seconds.
+
+Example: static agent at (4,3); covering agent moves from (4,5) to (4,3).
+
+================================================================================
+
+7. ANIMATED AGENT - "reveal-tr" Animation Type
+----------------------------------------------
+Inverse of hide-tr: one agent (the revealer) starts on top of another and
+moves away, revealing the one underneath. startX, startY = on top of the
+revealed agent; endX, endY = where the revealer moves to.
+
+Required properties:
+  - "animationType": "reveal-tr"
+  - "animation": { startX, startY, endX, endY, duration }
+
+Example: static agent at (4,3); revealer starts at (4,3) and moves to (4,5).
+
+================================================================================
+
+8. STATIC AGENT
 ---------------
 Agents that remain fixed at a specific position on the screen.
 
