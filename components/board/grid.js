@@ -1,5 +1,5 @@
-const gridCols = 9;
-const gridRows = 7;
+const gridCols = 13;
+const gridRows = 6;
 
 /**
  * Converts percentage coordinates to pixel coordinates

@@ -1,0 +1,41 @@
+---
+description: Translator script (CSV → JSON) — structure, specs, and modification guide
+globs: translator/**/*
+alwaysApply: false
+---
+
+# Translator (translator/)
+
+Sentence-to-JSON translator: reads a CSV of coded sentences and writes one JSON file per sentence for the language-game app.
+
+## Key files
+
+| File | Purpose |
+|------|--------|
+| `translate.py` | Main script: parse → build agents → write JSON |
+| `TRANSLATOR-SPEC.txt` | Grammar, modifier rule, filename convention (§6) |
+| `OUTPUT-FORMAT.txt` | JSON shape and animation types for the app |
+| `code-mappings.json` | agentBases (N1–N5), modifiers (Aa/Ab), actions (e.g. HIDE.INTR → hide-intr) |
+| `sentences.csv` | Input: one coded sentence per row |
+| `README.md` | Usage and CLI options |
+
+## Flow in translate.py
+
+1. **parse_sentence(sentence, mappings)** — Tokenizes sentence; finds verb (first token in `actions`); resolves SBJ/OBJ/LOC (regex `^(SBJ|OBJ|LOC)-(N\d+)$`); modifiers (Aa/Ab) must immediately precede the agent. Returns `{ verb_key, animation_type, subj, obj, loc, mappings }`.
+2. **build_agents(parsed)** — Builds `agents` array from parsed data. Handles each `animation_type` (go-intr, jump-intr, hide-intr, reveal-intr, push-tr, hide-tr, reveal-tr). When **LOC** is present: LOC agent is placed first (static), then all other positions are chosen "near" it via `use_cell_near` (LOC cell + neighbors). Otherwise uses **random** positions. Adds distractors when a modifier was used (both variants on screen).
+3. **build_filename(parsed)** — Order: OBJ — SBJ — VERB — LOC; omit OBJ/LOC if absent; Ab prefix when variant is "b".
+4. Write `{ "agentSize": 175, "agents": agents }` to output dir.
+
+## Constants to keep in sync with app
+
+- **Grid**: `GRID_COLS = 13`, `GRID_ROWS = 6` (0–12, 0–5).
+- **agentSize**: `175`.
+- Animation types and payloads must match `OUTPUT-FORMAT.txt` and what the app expects (see `components/sequence/`).
+
+## Modifying the translator
+
+- **New action/verb**: Add entry to `code-mappings.json` `actions`, then add a branch in `build_agents()` with the correct JSON shape from OUTPUT-FORMAT.txt.
+- **New modifier or agent code**: Update `code-mappings.json`; parsing already uses `agentBases` and `modifiers`.
+- **Filename convention**: Change `build_filename()`; keep order OBJ — SBJ — VERB — LOC per TRANSLATOR-SPEC.txt §6.
+- **Non-random positions/durations**: Replace `random_cell()`, `random_duration()` with logic that reads from CSV columns or a config file; keep grid bounds and app format unchanged.
+- **Locatives (LOC)**: Implemented. LOC agent is added as static; `cells_near()` / `use_cell_near()` constrain all action positions to LOC cell + neighbors. To change "near" (e.g. larger radius), adjust `cells_near()` and ensure enough distinct cells for the animation.
