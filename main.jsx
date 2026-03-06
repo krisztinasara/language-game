@@ -2,6 +2,7 @@ import { createRoot } from 'react-dom/client';
 import { motion } from 'motion/react';
 import { agent1a, agent1b, agent2a, agent2b, agent3a, agent3b, agent4a, agent4b, agent5a, agent5b, go, jump, hide, reveal, push, hideTr, revealTr } from './components';
 import { sparkles } from './components/effects/sparkles';
+import { SvgUniqueIds } from './components/effects/svg-unique-ids';
 import configData from './config.json';
 import { gridToPixels } from './components/board/grid';
 
@@ -196,9 +197,9 @@ function GoAgent({ agent, animationConfig, size = 100 }) {
         ...animationProps.style
       }}
     >
-      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <SvgUniqueIds style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {agent}
-      </div>
+      </SvgUniqueIds>
     </motion.div>
   );
 }
@@ -216,9 +217,9 @@ function JumpAgent({ agent, animationConfig, size = 100 }) {
         ...animationProps.style
       }}
     >
-      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <SvgUniqueIds style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {agent}
-      </div>
+      </SvgUniqueIds>
     </motion.div>
   );
 }
@@ -239,9 +240,9 @@ function HideAgent({ agent, animationConfig, size = 100 }) {
           ...style
         }}
       >
-        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <SvgUniqueIds style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {agent}
-        </div>
+        </SvgUniqueIds>
       </motion.div>
       {sparklesConfig && sparkles({
         centerX: sparklesConfig.centerX,
@@ -270,9 +271,9 @@ function RevealAgent({ agent, animationConfig, size = 100 }) {
           ...style
         }}
       >
-        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <SvgUniqueIds style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {agent}
-        </div>
+        </SvgUniqueIds>
       </motion.div>
       {sparklesConfig && sparkles({
         centerX: sparklesConfig.centerX,
@@ -298,9 +299,9 @@ function PushAgent({ agent, animationConfig, size = 100 }) {
         ...animationProps.style
       }}
     >
-      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <SvgUniqueIds style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {agent}
-      </div>
+      </SvgUniqueIds>
     </motion.div>
   );
 }
@@ -318,9 +319,9 @@ function HideTrAgent({ agent, animationConfig, size = 100 }) {
         ...animationProps.style
       }}
     >
-      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <SvgUniqueIds style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {agent}
-      </div>
+      </SvgUniqueIds>
     </motion.div>
   );
 }
@@ -338,9 +339,9 @@ function RevealTrAgent({ agent, animationConfig, size = 100 }) {
         ...animationProps.style
       }}
     >
-      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <SvgUniqueIds style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {agent}
-      </div>
+      </SvgUniqueIds>
     </motion.div>
   );
 }
@@ -357,9 +358,9 @@ function StaticAgent({ agent, staticProps, size = 100 }) {
         ...staticProps.style
       }}
     >
-      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <SvgUniqueIds style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {agent}
-      </div>
+      </SvgUniqueIds>
     </motion.div>
   );
 }

@@ -13,6 +13,11 @@ export function SequencePlayer({ sequence = [], onSequenceComplete }) {
   const [isLoading, setIsLoading] = useState(true);
   const sequenceRef = useRef(sequence);
   const onCompleteRef = useRef(onSequenceComplete);
+  const indexRef = useRef(0);
+
+  useEffect(() => {
+    indexRef.current = currentIndex;
+  }, [currentIndex]);
 
   // Keep refs updated
   useEffect(() => {
@@ -20,35 +25,28 @@ export function SequencePlayer({ sequence = [], onSequenceComplete }) {
     onCompleteRef.current = onSequenceComplete;
   }, [sequence, onSequenceComplete]);
 
-  const loadConfig = async (configPath) => {
-    setIsLoading(true);
+  const loadConfig = async (configPath, showLoading = true, nextIndex = undefined) => {
+    if (showLoading) setIsLoading(true);
     try {
       const response = await fetch(configPath);
       const config = await response.json();
       setCurrentConfig(config);
+      if (nextIndex !== undefined) setCurrentIndex(nextIndex);
       setIsLoading(false);
     } catch (error) {
       console.error(`Error loading config ${configPath}:`, error);
       setIsLoading(false);
-      // Move to next config on error
       moveToNext();
     }
   };
 
   const moveToNext = () => {
-    setCurrentIndex(prevIndex => {
-      const nextIndex = prevIndex + 1;
-      if (nextIndex < sequenceRef.current.length) {
-        loadConfig(sequenceRef.current[nextIndex]);
-        return nextIndex;
-      } else {
-        // All sequences complete
-        if (onCompleteRef.current) {
-          onCompleteRef.current();
-        }
-        return prevIndex; // Stay at last index
-      }
-    });
+    const nextIndex = indexRef.current + 1;
+    if (nextIndex < sequenceRef.current.length) {
+      loadConfig(sequenceRef.current[nextIndex], false, nextIndex);
+    } else {
+      if (onCompleteRef.current) onCompleteRef.current();
+    }
   };
 
   // Calculate max duration from current config to know when to move to next
@@ -70,8 +68,8 @@ export function SequencePlayer({ sequence = [], onSequenceComplete }) {
       return;
     }
 
-    // Load the first config
-    loadConfig(sequence[0]);
+    // Load the first config (show loading only for initial load)
+    loadConfig(sequence[0], true);
   }, []);
 
   useEffect(() => {
@@ -96,5 +94,5 @@ export function SequencePlayer({ sequence = [], onSequenceComplete }) {
     return <div>No sequence to play</div>;
   }
 
-  return <MyApp config={currentConfig} />;
+  return <MyApp key={currentIndex} config={currentConfig} />;
 }

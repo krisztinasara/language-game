@@ -51,12 +51,12 @@ Required properties:
 Animation object properties:
   startX (number, required)
     Starting grid column (0 to gridCols-1).
-    Current grid: 0 to 8 (9 columns total)
+    Current grid: 0 to 12 (13 columns total)
     Example: "startX": 1
 
   startY (number, required)
     Starting grid row (0 to gridRows-1).
-    Current grid: 0 to 6 (7 rows total)
+    Current grid: 0 to 5 (6 rows total)
     Example: "startY": 1
 
   endX (number, required)
@@ -117,12 +117,12 @@ Required properties:
 Animation object properties:
   startX (number, required)
     Starting grid column (0 to gridCols-1).
-    Current grid: 0 to 8 (9 columns total)
+    Current grid: 0 to 12 (13 columns total)
     Example: "startX": 1
 
   startY (number, required)
     Starting grid row (0 to gridRows-1).
-    Current grid: 0 to 6 (7 rows total)
+    Current grid: 0 to 5 (6 rows total)
     Example: "startY": 1
 
   endX (number, required)
@@ -180,12 +180,12 @@ Required properties:
 Animation object properties:
   X (number, required)
     Grid column position where the agent will hide (0 to gridCols-1).
-    Current grid: 0 to 8 (9 columns total)
+    Current grid: 0 to 12 (13 columns total)
     Example: "X": 4
 
   Y (number, required)
     Grid row position where the agent will hide (0 to gridRows-1).
-    Current grid: 0 to 6 (7 rows total)
+    Current grid: 0 to 5 (6 rows total)
     Example: "Y": 3
 
   duration (number, optional)
@@ -226,12 +226,12 @@ Required properties:
 Animation object properties:
   X (number, required)
     Grid column position where the agent will reveal (0 to gridCols-1).
-    Current grid: 0 to 8 (9 columns total)
+    Current grid: 0 to 12 (13 columns total)
     Example: "X": 4
 
   Y (number, required)
     Grid row position where the agent will reveal (0 to gridRows-1).
-    Current grid: 0 to 6 (7 rows total)
+    Current grid: 0 to 5 (6 rows total)
     Example: "Y": 3
 
   duration (number, optional)
@@ -278,12 +278,12 @@ Animation object properties:
 
   startX (number, required)
     Starting grid column (0 to gridCols-1).
-    Current grid: 0 to 8 (9 columns total)
+    Current grid: 0 to 12 (13 columns total)
     Example: "startX": 1
 
   startY (number, required)
     Starting grid row (0 to gridRows-1).
-    Current grid: 0 to 6 (7 rows total)
+    Current grid: 0 to 5 (6 rows total)
     Example: "startY": 1
 
   endX (number, required)
@@ -389,12 +389,12 @@ Required properties:
 Position object properties:
   X (number, required)
     Grid column position (0 to gridCols-1).
-    Current grid: 0 to 8 (9 columns total)
+    Current grid: 0 to 12 (13 columns total)
     Example: "X": 1
 
   Y (number, required)
     Grid row position (0 to gridRows-1).
-    Current grid: 0 to 6 (7 rows total)
+    Current grid: 0 to 5 (6 rows total)
     Example: "Y": 1
 
 Example static agent:
@@ -416,17 +416,17 @@ GRID COORDINATE SYSTEM
 The grid system divides the viewport into a grid for positioning agents.
 
 Current grid dimensions (defined in components/board/grid.js):
-  - Columns: 9 (indices 0-8)
-  - Rows: 7 (indices 0-6)
+  - Columns: 13 (indices 0-12)
+  - Rows: 6 (indices 0-5)
 
 Grid coordinates:
   - (0, 0) = top-left corner
-  - (8, 6) = bottom-right corner (maximum valid coordinates)
+  - (12, 5) = bottom-right corner (maximum valid coordinates)
   - Coordinates are 0-indexed
 
 Important:
   - Agents are centered on grid coordinates
-  - Using maximum coordinates (8, 6) will position the agent center at the
+  - Using maximum coordinates (12, 5) will position the agent center at the
     viewport edge, so half the agent may be outside the visible area
   - For full visibility, use coordinates slightly inside the maximum range
 

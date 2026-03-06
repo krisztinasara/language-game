@@ -12,10 +12,10 @@ export function push({
     const y = useMotionValue(startY);
     const startTime = useMotionValue(null);
   
-    // Timing: pusher moves first, then pushed starts when pusher arrives
-    // Pusher takes 60% of duration to reach pushed agent
-    const pusherPhaseDuration = duration * 0.7;
-    const pushDelay = pusherPhaseDuration - 0.5; // Pushed starts exactly when pusher arrives
+    // Timing: pusher moves first, pushed starts with ~15% overlap so both move briefly together (more dynamic)
+    const pusherPhaseDuration = duration * 0.5; // Pusher runs to contact point
+    const overlap = duration * 0.15; // 15% overlap: pushed starts this much before pusher arrives
+    const pushDelay = Math.max(0, pusherPhaseDuration - overlap);
   
     useAnimationFrame((t) => {
       // Initialize start time on first frame
