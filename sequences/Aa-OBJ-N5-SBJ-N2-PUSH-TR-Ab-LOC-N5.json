@@ -5,18 +5,18 @@
       "agent": "agent-5-b",
       "type": "static",
       "position": {
-        "X": 2,
-        "Y": 2
+        "X": 10,
+        "Y": 3
       }
     },
     {
-      "agent": "agent-2-b",
+      "agent": "agent-2-a",
       "animationType": "push-tr",
       "animation": {
         "role": "pusher",
-        "startX": 7,
+        "startX": 5,
         "startY": 3,
-        "endX": 5,
+        "endX": 7,
         "endY": 3,
         "duration": 1.0
       }
@@ -26,9 +26,9 @@
       "animationType": "push-tr",
       "animation": {
         "role": "pushed",
-        "startX": 5,
+        "startX": 7,
         "startY": 3,
-        "endX": 3,
+        "endX": 9,
         "endY": 3,
         "duration": 1.0
       }
