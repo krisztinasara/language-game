@@ -1,12 +1,13 @@
 import { useAnimationFrame, useMotionValue } from 'motion/react';
 
-export function push({ 
-    startX = 0, 
-    startY = 0, 
-    endX = 100, 
-    endY = 100, 
+export function push({
+    startX = 0,
+    startY = 0,
+    endX = 100,
+    endY = 100,
     duration = 2,
-    role = 'pusher' // 'pusher' or 'pushed'
+    role = 'pusher',
+    startDelay = 0
   }) {
     const x = useMotionValue(startX);
     const y = useMotionValue(startY);
@@ -18,16 +19,17 @@ export function push({
     const pushDelay = Math.max(0, pusherPhaseDuration - overlap);
   
     useAnimationFrame((t) => {
-      // Initialize start time on first frame
-      if (startTime.get() === null) {
-        startTime.set(t);
+      if (startTime.get() === null) startTime.set(t);
+      const elapsed = (t - startTime.get()) / 1000;
+      if (elapsed < startDelay) {
+        x.set(startX);
+        y.set(startY);
+        return;
       }
-
-      const elapsed = (t - startTime.get()) / 1000; // Convert to seconds
+      const effectiveElapsed = elapsed - startDelay;
 
       if (role === 'pusher') {
-        // Pusher: moves during first phase
-        const rawProgress = Math.min(elapsed / pusherPhaseDuration, 1); // Clamp to 0-1
+        const rawProgress = Math.min(effectiveElapsed / pusherPhaseDuration, 1);
 
         // Pusher: starts slow, accelerates, then slows down (easeInOutCubic)
         const easeInOutCubic = (t) => {
@@ -44,14 +46,11 @@ export function push({
         x.set(finalX);
         y.set(finalY);
       } else {
-        // Pushed: waits until pusher arrives, then moves
-        if (elapsed < pushDelay) {
-          // Stay at start position until pusher arrives
+        if (effectiveElapsed < pushDelay) {
           x.set(startX);
           y.set(startY);
         } else {
-          // Start moving exactly when pusher arrives
-          const pushedElapsed = elapsed - pushDelay;
+          const pushedElapsed = effectiveElapsed - pushDelay;
           const pushedDuration = duration - pushDelay; // Remaining duration
           const rawProgress = Math.min(pushedElapsed / pushedDuration, 1);
 

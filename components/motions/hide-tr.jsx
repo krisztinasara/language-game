@@ -1,24 +1,27 @@
 import { useAnimationFrame, useMotionValue } from 'motion/react';
 
-export function hideTr({ 
-    startX = 0, 
-    startY = 0, 
-    endX = 100, 
-    endY = 100, 
-    duration = 2
+export function hideTr({
+    startX = 0,
+    startY = 0,
+    endX = 100,
+    endY = 100,
+    duration = 2,
+    startDelay = 0
   }) {
     const x = useMotionValue(startX);
     const y = useMotionValue(startY);
     const startTime = useMotionValue(null);
   
     useAnimationFrame((t) => {
-      // Initialize start time on first frame
-      if (startTime.get() === null) {
-        startTime.set(t);
+      if (startTime.get() === null) startTime.set(t);
+      const elapsed = (t - startTime.get()) / 1000;
+      if (elapsed < startDelay) {
+        x.set(startX);
+        y.set(startY);
+        return;
       }
-  
-      const elapsed = (t - startTime.get()) / 1000; // Convert to seconds
-      const rawProgress = Math.min(elapsed / duration, 1); // Clamp to 0-1
+      const effectiveElapsed = elapsed - startDelay;
+      const rawProgress = Math.min(effectiveElapsed / duration, 1);
 
       // Easing function: slow at start, fast in middle, slow at end (easeInOutCubic)
       const easeInOutCubic = (t) => {
