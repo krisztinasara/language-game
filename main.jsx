@@ -30,6 +30,7 @@ const agentRegistry = {
 // Helper function to convert JSON config to runtime config with pixel values
 function processConfig(jsonConfig) {
   const defaultSize = jsonConfig.agentSize ?? 100; // Default to 100 if not specified
+  const startDelaySec = (jsonConfig.startDelayMs ?? 0) / 1000;
 
   return jsonConfig.agents.map(agentConfig => {
     // Get size for this agent (per-agent override or use default)
@@ -51,7 +52,8 @@ function processConfig(jsonConfig) {
           endY: end.y - halfSize,
           duration: anim.duration,
           amplitude: anim.amplitude,
-          frequency: anim.frequency
+          frequency: anim.frequency,
+          startDelay: startDelaySec
         }
       };
     }
@@ -71,7 +73,8 @@ function processConfig(jsonConfig) {
           endY: end.y - halfSize,
           duration: anim.duration ?? 2,
           jumpHeight: anim.jumpHeight ?? 100,
-          agentSize: agentSize
+          agentSize: agentSize,
+          startDelay: startDelaySec
         }
       };
     }
@@ -87,7 +90,8 @@ function processConfig(jsonConfig) {
           positionX: position.x - halfSize,
           positionY: position.y - halfSize,
           duration: anim.duration ?? 1,
-          agentSize: agentSize
+          agentSize: agentSize,
+          startDelay: startDelaySec
         }
       };
     }
@@ -103,7 +107,8 @@ function processConfig(jsonConfig) {
           positionX: position.x - halfSize,
           positionY: position.y - halfSize,
           duration: anim.duration ?? 1,
-          agentSize: agentSize
+          agentSize: agentSize,
+          startDelay: startDelaySec
         }
       };
     }
@@ -122,7 +127,8 @@ function processConfig(jsonConfig) {
           endX: end.x - halfSize,
           endY: end.y - halfSize,
           duration: anim.duration ?? 2,
-          role: anim.role ?? 'pusher' // 'pusher' or 'pushed'
+          role: anim.role ?? 'pusher',
+          startDelay: startDelaySec
         }
       };
     }
@@ -140,7 +146,8 @@ function processConfig(jsonConfig) {
           startY: start.y - halfSize,
           endX: end.x - halfSize,
           endY: end.y - halfSize,
-          duration: anim.duration ?? 2
+          duration: anim.duration ?? 2,
+          startDelay: startDelaySec
         }
       };
     }
@@ -158,7 +165,8 @@ function processConfig(jsonConfig) {
           startY: start.y - halfSize,
           endX: end.x - halfSize,
           endY: end.y - halfSize,
-          duration: anim.duration ?? 2
+          duration: anim.duration ?? 2,
+          startDelay: startDelaySec
         }
       };
     }
@@ -365,9 +373,9 @@ function StaticAgent({ agent, staticProps, size = 100 }) {
   );
 }
 
-export function MyApp({ config = configData }) {
-  // Process config: convert percentage values to pixel values
-  const agentConfigs = processConfig(config);
+export function MyApp({ config = configData, startDelayMs }) {
+  const configWithDelay = startDelayMs != null ? { ...config, startDelayMs } : config;
+  const agentConfigs = processConfig(configWithDelay);
 
   return (
     <div style={{ 

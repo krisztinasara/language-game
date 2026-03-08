@@ -1,10 +1,11 @@
 import { useAnimationFrame, useMotionValue } from 'motion/react';
 
-export function hide({ 
-    positionX = 0, 
-    positionY = 0, 
+export function hide({
+    positionX = 0,
+    positionY = 0,
     duration = 1,
-    agentSize = 100
+    agentSize = 100,
+    startDelay = 0
   }) {
     const x = useMotionValue(positionX);
     const y = useMotionValue(positionY);
@@ -12,13 +13,16 @@ export function hide({
     const startTime = useMotionValue(null);
   
     useAnimationFrame((t) => {
-      // Initialize start time on first frame
-      if (startTime.get() === null) {
-        startTime.set(t);
+      if (startTime.get() === null) startTime.set(t);
+      const elapsed = (t - startTime.get()) / 1000;
+      if (elapsed < startDelay) {
+        x.set(positionX);
+        y.set(positionY);
+        scale.set(1);
+        return;
       }
-
-      const elapsed = (t - startTime.get()) / 1000; // Convert to seconds
-      const rawProgress = Math.min(elapsed / duration, 1); // Clamp to 0-1
+      const effectiveElapsed = elapsed - startDelay;
+      const rawProgress = Math.min(effectiveElapsed / duration, 1);
 
       // Easing function: slow at start, fast in middle, slow at end (easeInOutCubic)
       const easeInOutCubic = (t) => {
@@ -55,7 +59,7 @@ export function hide({
         centerY,
         radius: sparkleRadius,
         duration,
-        startDelay: 0
+        startDelay
       }
     }
   }
