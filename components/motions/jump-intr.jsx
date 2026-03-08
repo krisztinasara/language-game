@@ -30,6 +30,9 @@ export function jump({
     );
     // Use the smaller of requested height or maximum allowed
     const adaptiveJumpHeight = Math.min(jumpHeight, maxAllowedHeight);
+
+    // 10% faster: same motion in 90% of the time
+    const effectiveDuration = duration * 0.9;
   
     useAnimationFrame((t) => {
       if (startTime.get() === null) startTime.set(t);
@@ -40,7 +43,7 @@ export function jump({
         return;
       }
       const effectiveElapsed = elapsed - startDelay;
-      const rawProgress = Math.min(effectiveElapsed / duration, 1);
+      const rawProgress = Math.min(effectiveElapsed / effectiveDuration, 1);
 
       // Easing function: slow at start, fast in middle, slow at end (easeInOutCubic)
       const easeInOutCubic = (t) => {

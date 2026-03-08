@@ -59,7 +59,7 @@ export function hide({
         centerY,
         radius: sparkleRadius,
         duration,
-        startDelay: 0
+        startDelay
       }
     }
   }
