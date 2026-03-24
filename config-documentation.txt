@@ -139,9 +139,9 @@ Animation object properties:
     Example: "duration": 3
 
   jumpHeight (number, optional)
-    Desired jump height in pixels. The actual jump height will be automatically
-    reduced if it would cause the agent to go outside the screen boundaries.
-    Default: 100
+    Desired jump height in pixels. The app reduces this if the full parabolic
+    arc (from crouch to landing) would leave the viewport.
+    Default: 700 (from JUMP_DEFAULT_JUMP_HEIGHT in jump-intr.jsx)
     Example: "jumpHeight": 150
 
 Example "jump-intr" agent:
@@ -154,7 +154,7 @@ Example "jump-intr" agent:
     "endX": 7,
     "endY": 2,
     "duration": 2,
-    "jumpHeight": 100
+    "jumpHeight": 700
   }
 }
 

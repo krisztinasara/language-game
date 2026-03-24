@@ -8,10 +8,7 @@
         "startX": 9,
         "startY": 3,
         "endX": 2,
-        "endY": 3,
-        "duration": 1.8,
-        "amplitude": 45,
-        "frequency": 3
+        "endY": 3
       }
     }
   ]

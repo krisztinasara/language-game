@@ -1,0 +1,22 @@
+{
+  "agentBases": {
+    "N1": "agent-1",
+    "N2": "agent-2",
+    "N3": "agent-3",
+    "N4": "agent-4",
+    "N5": "agent-5"
+  },
+  "modifiers": {
+    "Aa": "a",
+    "Ab": "b"
+  },
+  "actions": {
+    "GO.INTR": "go-intr",
+    "JUMP.INTR": "jump-intr",
+    "HIDE.INTR": "hide-intr",
+    "REVEAL.INTR": "reveal-intr",
+    "PUSH.TR": "push-tr",
+    "HIDE.TR": "hide-tr",
+    "REVEAL.TR": "reveal-tr"
+  }
+}

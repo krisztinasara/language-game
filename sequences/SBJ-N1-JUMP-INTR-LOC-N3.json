@@ -16,9 +16,7 @@
         "startX": 2,
         "startY": 3,
         "endX": 6,
-        "endY": 3,
-        "duration": 1.3,
-        "jumpHeight": 239
+        "endY": 3
       }
     }
   ]

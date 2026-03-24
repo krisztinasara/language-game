@@ -1,0 +1,215 @@
+================================================================================
+SENTENCE-TO-JSON TRANSLATOR — SPECIFICATION
+================================================================================
+(This folder can be moved to another repository later. Output JSONs are
+imported into the language-game app as sequence/config files.)
+
+----------------------------------------------------------------------
+1. CODE MAPPINGS (code-mappings.json)
+----------------------------------------------------------------------
+Fill in or adjust code-mappings.json:
+
+  agentBases   — Map each agent code to app agent id (no variant):
+                 e.g. "N1" -> "agent-1", "N5" -> "agent-5"
+
+  modifiers    — Map modifier to variant letter:
+                 "Aa" -> "a", "Ab" -> "b"
+                 Modifiers always immediately precede the agent they modify.
+
+  actions      — Map sentence action code to app animation type:
+                 e.g. "HIDE.INTR" -> "hide-intr", "HIDE.TR" -> "hide-tr"
+
+----------------------------------------------------------------------
+2. SENTENCE GRAMMAR
+----------------------------------------------------------------------
+Constituents are identified by PREFIXES (order of words does not matter,
+except that Aa/Ab must immediately precede the agent they modify):
+
+  SUBJ VERB.INTR
+    One agent (SUBJ) does an intransitive action.
+    Example: SBJ-N5 Ab SBJ-N5 HIDE.INTR → agent-5-b does hide-intr.
+
+  SUBJ VERB.INTR LOC
+    One agent (SUBJ) does an intransitive action at/near a location.
+    LOC = another agent; "somewhere" = neighboring field of that agent.
+
+  OBJ SUBJ VERB.TR
+    Subject agent (SUBJ) does a transitive action to/with object agent (OBJ).
+
+  OBJ SUBJ VERB.TR LOC
+    Same as above, at/near LOC (neighboring field of LOC agent).
+
+Prefixes:
+  SBJ-Nn  = subject agent (Nn from agentBases)
+  OBJ-Nn  = object agent
+  LOC-Nn  = location agent (neighboring cell)
+  Aa / Ab = modifier; must immediately precede the agent they modify (e.g. "Ab SBJ-N5" → agent-5-b).
+
+If a/b is not specified for an agent (e.g. OBJ-N2), the translator must
+choose one variant (e.g. agent-2-a or agent-2-b) consistently for that sentence.
+
+----------------------------------------------------------------------
+3. POSITIONS AND DURATIONS
+----------------------------------------------------------------------
+Grid: 13 columns (0–12), 6 rows (0–5). "Neighboring field" of LOC = one of
+the adjacent grid cells (or same cell, depending on your definition).
+
+Positions are chosen within defined ranges (see §3.1 and §3.2). Durations
+are random within sensible bounds unless overridden.
+
+----------------------------------------------------------------------
+3.1 CENTRAL POSITIONS (SUBJ and LOC)
+----------------------------------------------------------------------
+For all movements, SUBJ and LOC agents use relatively central positions so
+they stay well on screen:
+  — Horizontal: columns 2–10 (0-based).
+  — Vertical: rows 2–3 (0-based).
+OBJ positions use the inner range (columns 1–10, rows 1–4) to avoid edges.
+
+----------------------------------------------------------------------
+3.2 GO-INTR SPECIFIC RULES
+----------------------------------------------------------------------
+  — Amplitude, spatial frequency, and move duration/speed: defined only in
+    the app (components/motions/go-intr.jsx), not in translator JSON.
+
+  — Minimum movement distance (with or without LOC): the SUBJ must move
+    at least:
+    • When only one dimension changes (same row or same column): minimum
+      3 grid units in that dimension (horizontal or vertical).
+    • When both dimensions change: minimum 2 grid units in at least one
+      dimension (horizontal or vertical).
+
+  — When the sentence has LOC: the SUBJ end position is near the LOC
+    (central); the start position is chosen in the central range
+    subject to the minimum movement distance above. In addition, the
+    SUBJ start and the LOC must be at least the same distance: min 3
+    horizontally or vertically when only one dimension differs, min 2
+    in at least one dimension when both differ.
+
+  — When there is both LOC and a distractor (e.g. explicit modifier on
+    SUBJ or LOC): the distractor must not be too near the SUBJ end
+    position (minimum 2 grids away, by Chebyshev distance). The
+    distractor may be in less central positions: columns 1–10, rows 1–4.
+
+----------------------------------------------------------------------
+3.3 JUMP-INTR SPECIFIC RULES
+----------------------------------------------------------------------
+  Same LOC, SUBJ–LOC distance, and distractor rules as GO-INTR (§3.2),
+  with one difference:
+
+  — Minimum SUBJ movement: always at least 3 grids horizontally (in all
+    cases, with or without LOC). SUBJ start and LOC distance: same as
+    GO-INTR (min 3 in one dimension when only one differs, min 2 in at
+    least one dimension when both differ).
+
+  — Wind timing baseline and jump height: app defaults in
+    components/motions/jump-intr.jsx (translator JSON is grid endpoints only).
+
+----------------------------------------------------------------------
+3.4 HIDE-INTR AND REVEAL-INTR
+----------------------------------------------------------------------
+  — SUBJ position: always in column 6 (rows 2–3), the center of the
+    screen, for the hide/reveal animation.
+
+  — Distractor: when present, same rules as GO/JUMP—placed in
+    distractor range (cols 1–10, rows 1–4), minimum 2 grids away from
+    the SUBJ position (Chebyshev).
+
+----------------------------------------------------------------------
+3.5 HIDE-TR AND REVEAL-TR
+----------------------------------------------------------------------
+  — OBJ (the agent that is hidden/revealed): always in the center of
+    the screen (column 6, rows 2–3).
+
+  — SUBJ movement: only in neighboring grid cells relative to the OBJ
+    (neighbors restricted to rows 2–3 so both stay centered). For
+    HIDE-TR: SUBJ starts in a neighbor of OBJ and moves to OBJ. For
+    REVEAL-TR: SUBJ starts at OBJ and moves to a neighbor of OBJ.
+
+  — Vertical movement: when SUBJ finishes above or below the OBJ, the
+    OBJ is placed so that the pair is centered—OBJ in row 3 when SUBJ
+    is above (row 2), OBJ in row 2 when SUBJ is below (row 3).
+
+  — Distractor: when present, same rules as GO/JUMP—distractor range,
+    minimum 2 grids away from the OBJ position (Chebyshev).
+
+----------------------------------------------------------------------
+3.6 PUSH-TR
+----------------------------------------------------------------------
+  — SUBJ (pusher) and OBJ (pushed) move in the same angle and direction
+    (horizontal, vertical, or diagonal): contact point B is in a narrow
+    center band; pusher runs from A to B, pushed from B to C, with
+    (B − A) and (C − B) the same direction and distance (2–3 grids).
+    So both movements are collinear and equal.
+
+  — Centered and off edges: B is chosen in the middle of the screen
+    (cols 4–8 for 13 columns, rows 2–3). All three positions A, B, C
+    lie in the inner range (no edge columns or rows) so no agent is
+    halfway off screen.
+
+  — Duration: fixed (e.g. 1.0 s) so push animations are faster and
+    standardized.
+
+  — When LOC is present: LOC is placed first (central). The OBJ (pushed)
+    end position C is near the LOC (same “near” as GO-INTR: LOC cell or
+    one of its neighbors). Pusher start A and contact B are then chosen
+    so that the push direction and distance (2–3 grids) are preserved
+    and A, B remain in inner range. In the end state, SUBJ (at B) must be
+    at least one grid (Chebyshev) farther from the LOC than the OBJ (at C).
+    LOC distractor rules when present: same as GO/JUMP (avoid OBJ end,
+    min distance 2, distractor range).
+
+----------------------------------------------------------------------
+4. INPUT AND OUTPUT COUNT
+----------------------------------------------------------------------
+  Input:  CSV file. One coded sentence per row (e.g. one column with the
+          sentence, or multiple columns if you add more data later).
+  Output: One JSON file per input row. Number of output files = number of
+          input sentences.
+
+----------------------------------------------------------------------
+5. MODIFIER CONSTRAINT (+1)
+----------------------------------------------------------------------
+When a modifier is used (e.g. Ab on SBJ-N5), BOTH variants of that agent
+must appear on screen: the modified one (agent-5-b) is the "target", the
+other (agent-5-a) is the "distractor". So the output JSON must include
+both agent-5-a and agent-5-b (one doing the action, one static or in
+another role as needed).
+
+----------------------------------------------------------------------
+6. OUTPUT JSON FILENAMES (+2)
+----------------------------------------------------------------------
+Use a fixed order for transparency: OBJ — SBJ — VERB — LOC.
+
+  Naming convention:  OBJ-{obj}-{mod?}-SBJ-{subj}-{mod?}-{VERB}-LOC-{loc?}.json
+
+  Examples:
+    OBJ-N2-Ab-SBJ-N5-HIDE-TR-LOC-N1.json   for  HIDE.TR LOC-N1 Ab SBJ-N5 OBJ-N2
+    Ab-SBJ-N5-HIDE-INTR.json               for  Ab SBJ-N5 HIDE.INTR  (no OBJ, no LOC)
+    SBJ-N3-GO-INTR-LOC-N1.json             for  SBJ-N3 GO.INTR LOC-N1
+
+  Use uppercase and hyphens in the filename (VERB as in sentence, e.g. HIDE-TR).
+  Omit OBJ or LOC part if not present.
+
+----------------------------------------------------------------------
+7. OUTPUT JSON SHAPE
+----------------------------------------------------------------------
+Each file must be valid for the app: same structure as sequences/*.json
+
+  {
+    "agentSize": 175,
+    "agents": [
+      { "agent": "agent-X-y", "animationType": "...", "animation": { ... } },
+      { "agent": "agent-X-y", "type": "static", "position": { "X": col, "Y": row } },
+      ...
+    ]
+  }
+
+See OUTPUT-FORMAT.txt in this folder for the exact JSON shape and fields
+for each animation type. This folder is self-contained so it can be moved to
+another repository; the translator script (when added) only needs:
+  — code-mappings.json
+  — INPUT: CSV (one sentence per row)
+  — OUTPUT: one JSON file per sentence, filenames per section 6 above.
+
+================================================================================

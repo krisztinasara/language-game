@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { motion } from 'motion/react';
-import { agent1a, agent1b, agent2a, agent2b, agent3a, agent3b, agent4a, agent4b, agent5a, agent5b, go, jump, hide, reveal, push, hideTr, revealTr } from './components';
+import { agent1a, agent1b, agent2a, agent2b, agent3a, agent3b, agent4a, agent4b, agent5a, agent5b, go, GO_DEFAULT_AMPLITUDE, GO_DEFAULT_FREQUENCY, jump, JUMP_DEFAULT_DURATION, JUMP_DEFAULT_JUMP_HEIGHT, hide, reveal, push, hideTr, revealTr } from './components';
 import { sparkles } from './components/effects/sparkles';
 import { SvgUniqueIds } from './components/effects/svg-unique-ids';
 import configData from './config.json';
@@ -50,9 +50,8 @@ function processConfig(jsonConfig) {
           startY: start.y - halfSize,
           endX: end.x - halfSize,
           endY: end.y - halfSize,
-          duration: anim.duration,
-          amplitude: anim.amplitude,
-          frequency: anim.frequency,
+          amplitude: GO_DEFAULT_AMPLITUDE,
+          frequency: GO_DEFAULT_FREQUENCY,
           startDelay: startDelaySec
         }
       };
@@ -71,8 +70,8 @@ function processConfig(jsonConfig) {
           startY: start.y - halfSize,
           endX: end.x - halfSize,
           endY: end.y - halfSize,
-          duration: anim.duration ?? 2,
-          jumpHeight: anim.jumpHeight ?? 100,
+          duration: anim.duration ?? JUMP_DEFAULT_DURATION,
+          jumpHeight: anim.jumpHeight ?? JUMP_DEFAULT_JUMP_HEIGHT,
           agentSize: agentSize,
           startDelay: startDelaySec
         }

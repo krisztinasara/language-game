@@ -1,5 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { MyApp } from '../../main';
+import { gridToPixels } from '../board/grid';
+import {
+  getJumpEffectiveTotalDurationSec,
+  JUMP_DEFAULT_DURATION,
+  JUMP_DEFAULT_JUMP_HEIGHT
+} from '../motions/jump-intr';
+import { getGoEffectiveDurationSec } from '../motions/go-intr';
 
 /** Duration of the divider screen (solid black) between animations, in ms. Used by a Python script to detect segment boundaries. */
 const DIVIDER_DURATION_MS = 1500;
@@ -79,9 +86,41 @@ export function SequencePlayer({ sequence = [], onSequenceComplete }) {
 
   const getMaxDuration = (config) => {
     if (!config || !config.agents) return 0;
+    const agentSize = config.agentSize ?? 100;
+    const halfSize = agentSize / 2;
     let maxDuration = 0;
     config.agents.forEach(agent => {
-      if (agent.animation && agent.animation.duration) {
+      if (!agent.animation) return;
+      if (agent.animationType === 'jump-intr') {
+        const anim = agent.animation;
+        const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
+        const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
+        const sec = getJumpEffectiveTotalDurationSec({
+          startX: start.x - halfSize,
+          startY: start.y - halfSize,
+          endX: end.x - halfSize,
+          endY: end.y - halfSize,
+          duration: anim.duration ?? JUMP_DEFAULT_DURATION,
+          jumpHeight: anim.jumpHeight ?? JUMP_DEFAULT_JUMP_HEIGHT,
+          agentSize
+        });
+        maxDuration = Math.max(maxDuration, sec);
+        return;
+      }
+      if (agent.animationType === 'go-intr') {
+        const anim = agent.animation;
+        const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
+        const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
+        const sec = getGoEffectiveDurationSec({
+          startX: start.x - halfSize,
+          startY: start.y - halfSize,
+          endX: end.x - halfSize,
+          endY: end.y - halfSize
+        });
+        maxDuration = Math.max(maxDuration, sec);
+        return;
+      }
+      if (agent.animation.duration) {
         maxDuration = Math.max(maxDuration, agent.animation.duration);
       }
     });
