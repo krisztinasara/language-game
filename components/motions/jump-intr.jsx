@@ -257,18 +257,26 @@ export function jump({
       return yCrouch;
     }
 
+    const pulseDur = 0.45;
+    const pauseAfterPulse = 0.5;
+    const mainStart = startDelay + pauseAfterPulse;
+
     useAnimationFrame((t) => {
       if (startTime.get() === null) startTime.set(t);
       const elapsed = (t - startTime.get()) / 1000;
-      if (elapsed < startDelay) {
+      if (elapsed < mainStart) {
+        const pulseStart = Math.max(0, startDelay - pulseDur);
+        const pulseP = Math.min(Math.max((elapsed - pulseStart) / pulseDur, 0), 1);
+        const pulse = 1 + 0.2 * Math.sin(Math.PI * pulseP);
         x.set(startX);
         y.set(startY);
-        scaleX.set(1);
-        scaleY.set(1);
+        scaleX.set(pulse);
+        scaleY.set(pulse);
         return;
       }
 
-      const totalElapsed = elapsed - startDelay;
+      const totalElapsed = elapsed - mainStart;
+      const pulse = 1;
       let finalX;
       let finalY;
       let sxv = 1;
@@ -316,8 +324,8 @@ export function jump({
 
       x.set(clampedX);
       y.set(clampedY);
-      scaleX.set(sxv);
-      scaleY.set(syv);
+      scaleX.set(sxv * pulse);
+      scaleY.set(syv * pulse);
     });
 
     return {

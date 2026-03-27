@@ -5,23 +5,29 @@ export function reveal({
     positionY = 0,
     duration = 1,
     agentSize = 100,
-    startDelay = 0
+    startDelay = 0,
+    pulseEnabled = true
   }) {
     const x = useMotionValue(positionX);
     const y = useMotionValue(positionY);
     const scale = useMotionValue(0);
     const startTime = useMotionValue(null);
   
+    const pulseDur = 0.45;
+    const pauseAfterPulse = pulseEnabled ? 0.5 : 0;
+    const mainStart = startDelay + pauseAfterPulse;
+
     useAnimationFrame((t) => {
       if (startTime.get() === null) startTime.set(t);
       const elapsed = (t - startTime.get()) / 1000;
-      if (elapsed < startDelay) {
+      if (elapsed < mainStart) {
         x.set(positionX);
         y.set(positionY);
         scale.set(0);
         return;
       }
-      const effectiveElapsed = elapsed - startDelay;
+      const effectiveElapsed = elapsed - mainStart;
+      const pulse = 1;
       const rawProgress = Math.min(effectiveElapsed / duration, 1);
 
       // Easing function: slow at start, fast in middle, slow at end (easeInOutCubic)
@@ -38,7 +44,7 @@ export function reveal({
   
       x.set(positionX);
       y.set(positionY);
-      scale.set(currentScale);
+      scale.set(currentScale * pulse);
     })
   
     // Calculate center point for sparkles (accounting for agent size)
@@ -59,7 +65,7 @@ export function reveal({
         centerY,
         radius: sparkleRadius,
         duration,
-        startDelay
+        startDelay: mainStart
       }
     }
   }

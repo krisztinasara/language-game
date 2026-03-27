@@ -4,10 +4,11 @@
     {
       "agent": "agent-3-b",
       "animationType": "go-intr",
+      "pulseAtStart": true,
       "animation": {
-        "startX": 9,
+        "startX": 7,
         "startY": 3,
-        "endX": 2,
+        "endX": 4,
         "endY": 3
       }
     }

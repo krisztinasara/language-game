@@ -4,26 +4,27 @@
     {
       "agent": "agent-4-a",
       "animationType": "reveal-intr",
+      "pulseAtStart": true,
       "animation": {
         "X": 6,
-        "Y": 3,
-        "duration": 2.7
+        "Y": 2,
+        "duration": 2.6
       }
     },
     {
       "agent": "agent-4-b",
       "type": "static",
       "position": {
-        "X": 8,
-        "Y": 1
+        "X": 3,
+        "Y": 3
       }
     },
     {
-      "agent": "agent-3-a",
+      "agent": "agent-3-b",
       "type": "static",
       "position": {
         "X": 6,
-        "Y": 4
+        "Y": 3
       }
     }
   ]

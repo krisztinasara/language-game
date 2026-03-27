@@ -2,13 +2,14 @@
   "agentSize": 150,
   "agents": [
     {
-      "agent": "agent-4-a",
+      "agent": "agent-4-b",
       "animationType": "jump-intr",
+      "pulseAtStart": true,
       "animation": {
-        "startX": 6,
-        "startY": 2,
-        "endX": 3,
-        "endY": 2
+        "startX": 10,
+        "startY": 3,
+        "endX": 7,
+        "endY": 3
       }
     }
   ]

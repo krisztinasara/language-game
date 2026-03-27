@@ -5,15 +5,16 @@
       "agent": "agent-1-b",
       "type": "static",
       "position": {
-        "X": 4,
-        "Y": 2
+        "X": 3,
+        "Y": 3
       }
     },
     {
       "agent": "agent-5-b",
       "animationType": "go-intr",
+      "pulseAtStart": true,
       "animation": {
-        "startX": 8,
+        "startX": 7,
         "startY": 3,
         "endX": 4,
         "endY": 3
@@ -23,8 +24,8 @@
       "agent": "agent-5-a",
       "type": "static",
       "position": {
-        "X": 8,
-        "Y": 2
+        "X": 10,
+        "Y": 4
       }
     }
   ]

@@ -2,21 +2,22 @@
   "agentSize": 150,
   "agents": [
     {
-      "agent": "agent-3-b",
+      "agent": "agent-3-a",
       "type": "static",
       "position": {
-        "X": 5,
+        "X": 7,
         "Y": 3
       }
     },
     {
-      "agent": "agent-1-a",
+      "agent": "agent-1-b",
       "animationType": "jump-intr",
+      "pulseAtStart": true,
       "animation": {
-        "startX": 2,
-        "startY": 3,
-        "endX": 6,
-        "endY": 3
+        "startX": 4,
+        "startY": 2,
+        "endX": 7,
+        "endY": 2
       }
     }
   ]

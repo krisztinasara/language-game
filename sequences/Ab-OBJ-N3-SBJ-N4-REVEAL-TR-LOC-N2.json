@@ -5,35 +5,46 @@
       "agent": "agent-2-a",
       "type": "static",
       "position": {
-        "X": 5,
-        "Y": 3
+        "X": 6,
+        "Y": 2
       }
     },
     {
       "agent": "agent-3-b",
+      "animationType": "reveal-intr",
+      "animation": {
+        "X": 6,
+        "Y": 3,
+        "duration": 1.0,
+        "startDelay": 0.48
+      }
+    },
+    {
+      "agent": "agent-4-a",
       "type": "static",
       "position": {
-        "X": 6,
-        "Y": 3
+        "X": 4,
+        "Y": 1
       }
     },
     {
       "agent": "agent-4-a",
       "animationType": "reveal-tr",
+      "pulseAtStart": true,
       "animation": {
         "startX": 6,
         "startY": 3,
-        "endX": 7,
+        "endX": 5,
         "endY": 3,
-        "duration": 2.3
+        "duration": 2.4
       }
     },
     {
       "agent": "agent-3-a",
       "type": "static",
       "position": {
-        "X": 3,
-        "Y": 1
+        "X": 2,
+        "Y": 3
       }
     }
   ]

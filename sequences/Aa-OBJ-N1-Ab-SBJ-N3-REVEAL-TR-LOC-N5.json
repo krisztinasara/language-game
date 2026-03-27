@@ -2,46 +2,57 @@
   "agentSize": 150,
   "agents": [
     {
-      "agent": "agent-5-b",
+      "agent": "agent-5-a",
       "type": "static",
       "position": {
-        "X": 6,
-        "Y": 1
+        "X": 7,
+        "Y": 2
       }
     },
     {
       "agent": "agent-1-a",
+      "animationType": "reveal-intr",
+      "animation": {
+        "X": 6,
+        "Y": 2,
+        "duration": 1.0,
+        "startDelay": 0.52
+      }
+    },
+    {
+      "agent": "agent-3-b",
       "type": "static",
       "position": {
-        "X": 6,
-        "Y": 2
+        "X": 5,
+        "Y": 1
       }
     },
     {
       "agent": "agent-3-b",
       "animationType": "reveal-tr",
+      "pulseAtStart": true,
       "animation": {
         "startX": 6,
         "startY": 2,
-        "endX": 7,
+        "endX": 5,
         "endY": 2,
-        "duration": 2.0
+        "duration": 2.6
       }
     },
     {
       "agent": "agent-3-a",
       "type": "static",
       "position": {
-        "X": 3,
-        "Y": 3
+        "X": 8,
+        "Y": 4
       }
     },
     {
       "agent": "agent-1-b",
       "type": "static",
       "position": {
-        "X": 2,
-        "Y": 3
+        "X": 9,
+        "Y": 1
       }
     }
   ]

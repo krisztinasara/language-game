@@ -2,30 +2,41 @@
   "agentSize": 150,
   "agents": [
     {
-      "agent": "agent-2-b",
+      "agent": "agent-2-a",
       "type": "static",
       "position": {
-        "X": 6,
-        "Y": 4
+        "X": 5,
+        "Y": 2
       }
     },
     {
-      "agent": "agent-1-b",
-      "type": "static",
-      "position": {
-        "X": 6,
-        "Y": 3
-      }
-    },
-    {
-      "agent": "agent-5-b",
-      "animationType": "hide-tr",
+      "agent": "agent-1-a",
+      "animationType": "hide-intr",
       "animation": {
-        "startX": 7,
+        "X": 6,
+        "Y": 2,
+        "duration": 0.9,
+        "startDelay": 1.25
+      }
+    },
+    {
+      "agent": "agent-1-a",
+      "type": "static",
+      "position": {
+        "X": 2,
+        "Y": 1
+      }
+    },
+    {
+      "agent": "agent-5-a",
+      "animationType": "hide-tr",
+      "pulseAtStart": true,
+      "animation": {
+        "startX": 4,
         "startY": 3,
         "endX": 6,
-        "endY": 3,
-        "duration": 2.0
+        "endY": 2,
+        "duration": 1.5
       }
     }
   ]

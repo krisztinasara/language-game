@@ -5,25 +5,26 @@
       "agent": "agent-3-b",
       "type": "static",
       "position": {
-        "X": 6,
+        "X": 4,
         "Y": 3
       }
     },
     {
       "agent": "agent-1-a",
       "animationType": "go-intr",
+      "pulseAtStart": true,
       "animation": {
-        "startX": 2,
-        "startY": 3,
-        "endX": 6,
-        "endY": 2
+        "startX": 8,
+        "startY": 2,
+        "endX": 5,
+        "endY": 3
       }
     },
     {
       "agent": "agent-1-b",
       "type": "static",
       "position": {
-        "X": 2,
+        "X": 3,
         "Y": 1
       }
     },
@@ -31,8 +32,8 @@
       "agent": "agent-3-a",
       "type": "static",
       "position": {
-        "X": 1,
-        "Y": 2
+        "X": 4,
+        "Y": 1
       }
     }
   ]

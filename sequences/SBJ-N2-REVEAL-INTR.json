@@ -2,12 +2,13 @@
   "agentSize": 150,
   "agents": [
     {
-      "agent": "agent-2-b",
+      "agent": "agent-2-a",
       "animationType": "reveal-intr",
+      "pulseAtStart": true,
       "animation": {
         "X": 6,
         "Y": 3,
-        "duration": 2.5
+        "duration": 1.8
       }
     }
   ]

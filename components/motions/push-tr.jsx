@@ -11,6 +11,7 @@ export function push({
   }) {
     const x = useMotionValue(startX);
     const y = useMotionValue(startY);
+    const scale = useMotionValue(1);
     const startTime = useMotionValue(null);
   
     // Timing: pusher moves first, pushed starts with ~15% overlap so both move briefly together (more dynamic)
@@ -18,15 +19,28 @@ export function push({
     const overlap = duration * 0.15; // 15% overlap: pushed starts this much before pusher arrives
     const pushDelay = Math.max(0, pusherPhaseDuration - overlap);
   
+    const pulseDur = 0.45;
+    const pauseAfterPulse = 0.5;
+    const mainStart = startDelay + pauseAfterPulse;
+
     useAnimationFrame((t) => {
       if (startTime.get() === null) startTime.set(t);
       const elapsed = (t - startTime.get()) / 1000;
-      if (elapsed < startDelay) {
+      if (elapsed < mainStart) {
+        if (role === 'pusher') {
+          const pulseStart = Math.max(0, startDelay - pulseDur);
+          const pulseP = Math.min(Math.max((elapsed - pulseStart) / pulseDur, 0), 1);
+          const pulse = 1 + 0.2 * Math.sin(Math.PI * pulseP);
+          scale.set(pulse);
+        } else {
+          scale.set(1);
+        }
         x.set(startX);
         y.set(startY);
         return;
       }
-      const effectiveElapsed = elapsed - startDelay;
+      const effectiveElapsed = elapsed - mainStart;
+      scale.set(1);
 
       if (role === 'pusher') {
         const rawProgress = Math.min(effectiveElapsed / pusherPhaseDuration, 1);
@@ -74,7 +88,8 @@ export function push({
       style: { 
         position: 'absolute', 
         x, 
-        y
+        y,
+        scale
       }
     }
   }

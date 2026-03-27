@@ -81,6 +81,8 @@ function processConfig(jsonConfig) {
     if (agentConfig.animationType === 'hide-intr' && agentConfig.animation) {
       const anim = agentConfig.animation;
       const position = gridToPixels(anim.X ?? 0, anim.Y ?? 0);
+      const start = gridToPixels(anim.startX ?? anim.X ?? 0, anim.startY ?? anim.Y ?? 0);
+      const extraDelay = anim.startDelay ?? 0;
 
       return {
         ...agentConfig,
@@ -88,9 +90,12 @@ function processConfig(jsonConfig) {
         animation: {
           positionX: position.x - halfSize,
           positionY: position.y - halfSize,
+          startX: start.x - halfSize,
+          startY: start.y - halfSize,
           duration: anim.duration ?? 1,
           agentSize: agentSize,
-          startDelay: startDelaySec
+          startDelay: startDelaySec + extraDelay,
+          pulseEnabled: Boolean(agentConfig.pulseAtStart)
         }
       };
     }
@@ -98,6 +103,7 @@ function processConfig(jsonConfig) {
     if (agentConfig.animationType === 'reveal-intr' && agentConfig.animation) {
       const anim = agentConfig.animation;
       const position = gridToPixels(anim.X ?? 0, anim.Y ?? 0);
+      const extraDelay = anim.startDelay ?? 0;
 
       return {
         ...agentConfig,
@@ -107,7 +113,8 @@ function processConfig(jsonConfig) {
           positionY: position.y - halfSize,
           duration: anim.duration ?? 1,
           agentSize: agentSize,
-          startDelay: startDelaySec
+          startDelay: startDelaySec + extraDelay,
+          pulseEnabled: Boolean(agentConfig.pulseAtStart)
         }
       };
     }
@@ -116,6 +123,7 @@ function processConfig(jsonConfig) {
       const anim = agentConfig.animation;
       const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
       const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
+      const extraDelay = anim.startDelay ?? 0;
 
       return {
         ...agentConfig,
@@ -127,7 +135,7 @@ function processConfig(jsonConfig) {
           endY: end.y - halfSize,
           duration: anim.duration ?? 2,
           role: anim.role ?? 'pusher',
-          startDelay: startDelaySec
+          startDelay: startDelaySec + extraDelay
         }
       };
     }
@@ -136,17 +144,21 @@ function processConfig(jsonConfig) {
       const anim = agentConfig.animation;
       const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
       const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
+      const preStart = gridToPixels(anim.preStartX ?? anim.startX ?? 0, anim.preStartY ?? anim.startY ?? 0);
+      const extraDelay = anim.startDelay ?? 0;
 
       return {
         ...agentConfig,
         size: agentSize,
         animation: {
+          preStartX: preStart.x - halfSize,
+          preStartY: preStart.y - halfSize,
           startX: start.x - halfSize,
           startY: start.y - halfSize,
           endX: end.x - halfSize,
           endY: end.y - halfSize,
           duration: anim.duration ?? 2,
-          startDelay: startDelaySec
+          startDelay: startDelaySec + extraDelay
         }
       };
     }
@@ -155,6 +167,7 @@ function processConfig(jsonConfig) {
       const anim = agentConfig.animation;
       const start = gridToPixels(anim.startX ?? 0, anim.startY ?? 0);
       const end = gridToPixels(anim.endX ?? 0, anim.endY ?? 0);
+      const extraDelay = anim.startDelay ?? 0;
 
       return {
         ...agentConfig,
@@ -165,7 +178,7 @@ function processConfig(jsonConfig) {
           endX: end.x - halfSize,
           endY: end.y - halfSize,
           duration: anim.duration ?? 2,
-          startDelay: startDelaySec
+          startDelay: startDelaySec + extraDelay
         }
       };
     }
@@ -390,63 +403,63 @@ export function MyApp({ config = configData, startDelayMs }) {
         
         if (agentConfig.animationType === 'go-intr') {
           return (
-            <GoAgent 
+            <GoAgent
               key={index}
-              agent={agent} 
+              agent={agent}
               animationConfig={agentConfig.animation}
               size={agentConfig.size}
             />
           );
         } else if (agentConfig.animationType === 'jump-intr') {
           return (
-            <JumpAgent 
+            <JumpAgent
               key={index}
-              agent={agent} 
+              agent={agent}
               animationConfig={agentConfig.animation}
               size={agentConfig.size}
             />
           );
         } else if (agentConfig.animationType === 'hide-intr') {
           return (
-            <HideAgent 
+            <HideAgent
               key={index}
-              agent={agent} 
+              agent={agent}
               animationConfig={agentConfig.animation}
               size={agentConfig.size}
             />
           );
         } else if (agentConfig.animationType === 'reveal-intr') {
           return (
-            <RevealAgent 
+            <RevealAgent
               key={index}
-              agent={agent} 
+              agent={agent}
               animationConfig={agentConfig.animation}
               size={agentConfig.size}
             />
           );
         } else if (agentConfig.animationType === 'push-tr') {
           return (
-            <PushAgent 
+            <PushAgent
               key={index}
-              agent={agent} 
+              agent={agent}
               animationConfig={agentConfig.animation}
               size={agentConfig.size}
             />
           );
         } else if (agentConfig.animationType === 'hide-tr') {
           return (
-            <HideTrAgent 
+            <HideTrAgent
               key={index}
-              agent={agent} 
+              agent={agent}
               animationConfig={agentConfig.animation}
               size={agentConfig.size}
             />
           );
         } else if (agentConfig.animationType === 'reveal-tr') {
           return (
-            <RevealTrAgent 
+            <RevealTrAgent
               key={index}
-              agent={agent} 
+              agent={agent}
               animationConfig={agentConfig.animation}
               size={agentConfig.size}
             />
