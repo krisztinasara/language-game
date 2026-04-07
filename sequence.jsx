@@ -2,14 +2,14 @@ import { createRoot } from 'react-dom/client';
 import { useState, useEffect } from 'react';
 import { SequencePlayer } from './components/sequence/player';
 
-const SEQUENCE_LIST_URL = './sequences/sequence-list.txt';
+const SEQUENCE_LIST_URL = './sequences/sequence_list.txt';
 const SEQUENCES_BASE = './sequences/';
 
 /**
  * Sequence Player Entry Point
  *
- * Loads the sequence list from sequence-list.txt (written by translator/translate.py).
- * Each line is a JSON filename; paths are built as ./sequences/<filename>.
+ * Loads the sequence list from sequence_list.txt (one JSON filename per line).
+ * Paths are built as ./sequences/<filename>.
  */
 function SequenceApp() {
   const [sequence, setSequence] = useState([]);
@@ -23,6 +23,12 @@ function SequenceApp() {
         return res.text();
       })
       .then((text) => {
+        const trimmed = text.trimStart();
+        if (trimmed.startsWith('<!DOCTYPE') || trimmed.startsWith('<html')) {
+          throw new Error(
+            'Sequence list URL returned HTML instead of a text list. Check SEQUENCE_LIST_URL matches a real file (e.g. sequence_list.txt).'
+          );
+        }
         const names = text
           .split('\n')
           .map((s) => s.trim())
@@ -39,7 +45,7 @@ function SequenceApp() {
 
   if (loading) return <div>Loading sequence list...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (sequence.length === 0) return <div>No sequences in sequence-list.txt</div>;
+  if (sequence.length === 0) return <div>No sequences in sequence_list.txt</div>;
 
   return (
     <SequencePlayer

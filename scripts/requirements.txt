@@ -1,2 +1,0 @@
-# For split_video_by_black.py
-opencv-python>=4.8.0

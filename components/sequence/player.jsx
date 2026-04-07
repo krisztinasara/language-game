@@ -63,6 +63,9 @@ export function SequencePlayer({ sequence = [], onSequenceComplete }) {
     if (showLoading) setIsLoading(true);
     try {
       const response = await fetch(configPath);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
       const config = await response.json();
       setCurrentConfig(config);
       if (nextIndex !== undefined) setCurrentIndex(nextIndex);
@@ -149,15 +152,34 @@ export function SequencePlayer({ sequence = [], onSequenceComplete }) {
     }
   }, [currentConfig, showDivider]);
 
-  // While divider is shown: after DIVIDER_DURATION_MS, load next config
+  // While divider is shown: after DIVIDER_DURATION_MS, load next config (hide divider only after load completes)
   useEffect(() => {
     if (!showDivider || pendingNextIndex === null) return;
     const list = sequenceRef.current;
     if (pendingNextIndex >= list.length) return;
+    const idx = pendingNextIndex;
+    const path = list[idx];
     const timer = setTimeout(() => {
-      loadConfig(list[pendingNextIndex], false, pendingNextIndex);
-      setShowDivider(false);
-      setPendingNextIndex(null);
+      void (async () => {
+        try {
+          const response = await fetch(path);
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const config = await response.json();
+          setCurrentConfig(config);
+          setCurrentIndex(idx);
+          setShowDivider(false);
+          setPendingNextIndex(null);
+        } catch (error) {
+          console.error(`Error loading config ${path}:`, error);
+          indexRef.current = idx;
+          setCurrentIndex(idx);
+          setShowDivider(false);
+          setPendingNextIndex(null);
+          moveToNext();
+        }
+      })();
     }, DIVIDER_DURATION_MS);
     return () => clearTimeout(timer);
   }, [showDivider, pendingNextIndex]);
