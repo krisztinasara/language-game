@@ -1,0 +1,40 @@
+{
+  "agentSize": 150,
+  "agents": [
+    {
+      "agent": "agent-3-b",
+      "type": "static",
+      "position": {
+        "X": 6,
+        "Y": 2
+      }
+    },
+    {
+      "agent": "agent-5-a",
+      "animationType": "go-intr",
+      "pulseAtStart": true,
+      "animation": {
+        "startX": 9,
+        "startY": 3,
+        "endX": 7,
+        "endY": 2
+      }
+    },
+    {
+      "agent": "agent-5-b",
+      "type": "static",
+      "position": {
+        "X": 1,
+        "Y": 2
+      }
+    },
+    {
+      "agent": "agent-3-a",
+      "type": "static",
+      "position": {
+        "X": 10,
+        "Y": 4
+      }
+    }
+  ]
+}

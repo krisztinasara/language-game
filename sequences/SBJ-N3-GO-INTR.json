@@ -6,10 +6,10 @@
       "animationType": "go-intr",
       "pulseAtStart": true,
       "animation": {
-        "startX": 7,
+        "startX": 2,
         "startY": 3,
-        "endX": 4,
-        "endY": 3
+        "endX": 5,
+        "endY": 2
       }
     }
   ]

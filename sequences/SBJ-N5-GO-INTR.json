@@ -1,0 +1,16 @@
+{
+  "agentSize": 150,
+  "agents": [
+    {
+      "agent": "agent-5-b",
+      "animationType": "go-intr",
+      "pulseAtStart": true,
+      "animation": {
+        "startX": 8,
+        "startY": 3,
+        "endX": 6,
+        "endY": 2
+      }
+    }
+  ]
+}

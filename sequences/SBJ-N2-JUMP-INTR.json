@@ -1,0 +1,16 @@
+{
+  "agentSize": 150,
+  "agents": [
+    {
+      "agent": "agent-2-b",
+      "animationType": "jump-intr",
+      "pulseAtStart": true,
+      "animation": {
+        "startX": 3,
+        "startY": 3,
+        "endX": 8,
+        "endY": 2
+      }
+    }
+  ]
+}

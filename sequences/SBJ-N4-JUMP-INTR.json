@@ -6,10 +6,10 @@
       "animationType": "jump-intr",
       "pulseAtStart": true,
       "animation": {
-        "startX": 10,
-        "startY": 3,
-        "endX": 7,
-        "endY": 3
+        "startX": 3,
+        "startY": 2,
+        "endX": 9,
+        "endY": 2
       }
     }
   ]

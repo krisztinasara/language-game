@@ -1,0 +1,59 @@
+{
+  "agentSize": 150,
+  "agents": [
+    {
+      "agent": "agent-4-b",
+      "type": "static",
+      "position": {
+        "X": 6,
+        "Y": 2
+      }
+    },
+    {
+      "agent": "agent-4-a",
+      "type": "static",
+      "position": {
+        "X": 4,
+        "Y": 1
+      }
+    },
+    {
+      "agent": "agent-5-b",
+      "animationType": "hide-intr",
+      "animation": {
+        "X": 6,
+        "Y": 3,
+        "duration": 1.0,
+        "startDelay": 1.76
+      }
+    },
+    {
+      "agent": "agent-5-b",
+      "type": "static",
+      "position": {
+        "X": 4,
+        "Y": 3
+      }
+    },
+    {
+      "agent": "agent-2-b",
+      "animationType": "hide-tr",
+      "pulseAtStart": true,
+      "animation": {
+        "startX": 8,
+        "startY": 3,
+        "endX": 6,
+        "endY": 3,
+        "duration": 2.2
+      }
+    },
+    {
+      "agent": "agent-5-a",
+      "type": "static",
+      "position": {
+        "X": 1,
+        "Y": 3
+      }
+    }
+  ]
+}
