@@ -5,13 +5,66 @@ import { SequencePlayer } from './components/sequence/player';
 const SEQUENCE_LIST_URL = './sequences/sequence_list.txt';
 const SEQUENCES_BASE = './sequences/';
 
+const scenePageStyle = {
+  position: 'fixed',
+  inset: 0,
+  backgroundColor: '#ffffff',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  overflow: 'hidden',
+};
+
+/**
+ * ?scene= is one JSON address relative to this page.
+ * Missing param means the playlist.
+ */
+function sceneRequest() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has('scene')) return null;
+  const raw = (params.get('scene') ?? '').trim();
+  if (!raw) return { error: 'Scene address is empty.' };
+  try {
+    return { url: new URL(raw, window.location.href).href };
+  } catch {
+    return { error: 'Scene address is not a valid URL.' };
+  }
+}
+
+const requestedScene = sceneRequest();
+
+if (requestedScene) {
+  document.documentElement.style.backgroundColor = '#ffffff';
+  document.body.style.backgroundColor = '#ffffff';
+}
+
+function ScenePage({ children }) {
+  return <div style={scenePageStyle}>{children}</div>;
+}
+
+/**
+ * One scene, looped. Does not read sequences/sequence_list.txt.
+ * No audio: the parent page plays the sentence.
+ */
+function SingleSceneApp() {
+  if (requestedScene.error) {
+    return <ScenePage>Error: {requestedScene.error}</ScenePage>;
+  }
+
+  return (
+    <ScenePage>
+      <SequencePlayer sequence={[requestedScene.url]} single />
+    </ScenePage>
+  );
+}
+
 /**
  * Sequence Player Entry Point
  *
  * Loads the sequence list from sequence_list.txt (one JSON filename per line).
  * Paths are built as ./sequences/<filename>.
  */
-function SequenceApp() {
+function PlaylistApp() {
   const [sequence, setSequence] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -55,8 +108,11 @@ function SequenceApp() {
   );
 }
 
-// Render the sequence player
+function SequenceApp() {
+  if (requestedScene) return <SingleSceneApp />;
+  return <PlaylistApp />;
+}
+
 createRoot(document.getElementById('root')).render(
   <SequenceApp />
 );
-

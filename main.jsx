@@ -1,4 +1,3 @@
-import { createRoot } from 'react-dom/client';
 import { motion } from 'motion/react';
 import { agent1a, agent1b, agent2a, agent2b, agent3a, agent3b, agent4a, agent4b, agent5a, agent5b, go, GO_DEFAULT_AMPLITUDE, GO_DEFAULT_FREQUENCY, jump, JUMP_DEFAULT_DURATION, JUMP_DEFAULT_JUMP_HEIGHT, hide, reveal, push, hideTr, revealTr } from './components';
 import { sparkles } from './components/effects/sparkles';
@@ -385,14 +384,21 @@ function StaticAgent({ agent, staticProps, size = 100 }) {
   );
 }
 
-export function MyApp({ config = configData, startDelayMs }) {
+export function MyApp({ config = configData, startDelayMs, sceneMode = false }) {
   const configWithDelay = startDelayMs != null ? { ...config, startDelayMs } : config;
   const agentConfigs = processConfig(configWithDelay);
 
   return (
-    <div style={{ 
-        width: '100vw', 
-        height: '100vh', 
+    <div style={sceneMode ? {
+        position: 'absolute',
+        inset: 0,
+        overflow: 'hidden',
+        margin: 0,
+        padding: 0,
+        backgroundColor: '#ffffff'
+    } : {
+        width: '100vw',
+        height: '100vh',
         position: 'relative',
         overflow: 'hidden',  // Prevents scrolling/viewport expansion
         margin: 0,
@@ -479,8 +485,3 @@ export function MyApp({ config = configData, startDelayMs }) {
     </div>
   );
 }
-
-// Default render (for standalone use)
-createRoot(document.getElementById('root')).render(
-    <MyApp />
-);
